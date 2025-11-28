@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: treetory
+
+  config:
+    import: optional:file:.env[.properties]
+
+  profiles:
+    active: ${PROFILE}
+
+  datasource:
+    driver-class-name: ${DB_DRIVER}
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+
+  data:
+    redis:
+      repositories:
+        enabled: false
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
