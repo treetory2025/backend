@@ -13,6 +13,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import site.treetory.global.exception.CustomAuthenticationEntryPoint;
 import site.treetory.global.security.jwt.JwtAuthenticationFilter;
 import site.treetory.global.security.jwt.JwtUtils;
+import site.treetory.global.security.oauth.CustomOAuth2UserService;
+import site.treetory.global.security.oauth.Oauth2SuccessHandler;
 import site.treetory.global.util.CookieUtils;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
@@ -25,13 +27,14 @@ public class SecurityConfig {
     private final JwtUtils jwtUtils;
     private final CookieUtils cookieUtils;
     private final UserDetailsService userDetailsService;
+    private final CustomOAuth2UserService oAuth2UserService;
+    private final Oauth2SuccessHandler oauth2SuccessHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/tmp/test").authenticated()
                         .requestMatchers("/api/**").permitAll()
                         .anyRequest().denyAll()
                 )
@@ -49,8 +52,16 @@ public class SecurityConfig {
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtUtils, cookieUtils, userDetailsService),
                         UsernamePasswordAuthenticationFilter.class
+                )
+                .oauth2Login(oauth2Configurer -> oauth2Configurer
+                        .authorizationEndpoint(authEndPoint -> authEndPoint
+                                .baseUri("/api/auth/login"))
+                        .redirectionEndpoint(authEndPoint -> authEndPoint
+                                .baseUri("/api/auth/oauth2/*"))
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(oAuth2UserService))
+                        .successHandler(oauth2SuccessHandler)
                 );
-
 
         return http.build();
     }
