@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import site.treetory.domain.member.enums.Role;
 import site.treetory.global.entity.BaseEntity;
 
 @Entity
@@ -37,4 +38,8 @@ public class Member extends BaseEntity {
     @NotNull
     @Column(length = 20)
     private String nickname;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }
