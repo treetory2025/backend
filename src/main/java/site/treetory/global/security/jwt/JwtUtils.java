@@ -3,6 +3,7 @@ package site.treetory.global.security.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import site.treetory.global.exception.CustomException;
@@ -19,9 +20,10 @@ import static site.treetory.global.security.jwt.JwtConstants.*;
 import static site.treetory.global.statuscode.ErrorCode.INVALID_TOKEN;
 
 @Component
+@RequiredArgsConstructor
 public class JwtUtils {
 
-    private JwtProperties jwtProperties;
+    private final JwtProperties jwtProperties;
 
     private Key accessKey;
     private Key refreshKey;
