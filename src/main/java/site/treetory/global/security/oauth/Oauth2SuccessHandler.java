@@ -29,6 +29,7 @@ public class Oauth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+
         CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
 
         String uuid = oAuth2User.getUuid();

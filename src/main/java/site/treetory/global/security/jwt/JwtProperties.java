@@ -7,7 +7,6 @@ public record JwtProperties(
         Access access,
         Refresh refresh
 ) {
-
     public long getAccessExpiration() {
         return access.expiration();
     }

@@ -5,9 +5,9 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import site.treetory.global.exception.CustomException;
+import site.treetory.global.security.jwt.JwtProperties;
 import site.treetory.global.security.jwt.JwtUtils;
 import site.treetory.global.util.CookieUtils;
 import site.treetory.global.util.RedisUtils;
@@ -20,15 +20,11 @@ import static site.treetory.global.statuscode.ErrorCode.INVALID_TOKEN;
 
 @Service
 @RequiredArgsConstructor
+
     public class AuthService {
 
-    @Value("${jwt.access.expiration}")
-    private long accessExpiration;
-
-    @Value("${jwt.refresh.expiration}")
-    private long refreshExpiration;
-
     private final JwtUtils jwtUtils;
+    private final JwtProperties jwtProperties;
     private final CookieUtils cookieUtils;
     private final RedisUtils redisUtils;
 
@@ -65,10 +61,10 @@ import static site.treetory.global.statuscode.ErrorCode.INVALID_TOKEN;
         String accessToken = jwtUtils.createAccessToken(uuid, jti);
         String refreshToken = jwtUtils.createRefreshToken(uuid, jti);
 
-        redisUtils.setDataWithExpiration("refresh:" + uuid + ":" + jti, refreshToken, refreshExpiration);
+        redisUtils.setDataWithExpiration("refresh:" + uuid + ":" + jti, refreshToken, jwtProperties.getRefreshExpiration());
 
-        Cookie accessCookie = cookieUtils.createCookie(ACCESS, accessToken, "/", accessExpiration);
-        Cookie refreshCookie = cookieUtils.createCookie(REFRESH, refreshToken, "/api/auth/", refreshExpiration);
+        Cookie accessCookie = cookieUtils.createCookie(ACCESS, accessToken, "/", jwtProperties.getAccessExpiration());
+        Cookie refreshCookie = cookieUtils.createCookie(REFRESH, refreshToken, "/api/auth/", jwtProperties.getRefreshExpiration());
 
         response.addCookie(accessCookie);
         response.addCookie(refreshCookie);
