@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: treetory
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/treetory
+    username: root
+
+  data:
+    redis:
+      repositories:
+        enabled: false
+      host: localhost
+      port: 6379
+
+jwt:
+  access:
+    secret: testkeytestkeytestkeytestkeytestkeytestkeytestkeytestkey
+    expiration: 60000
+  refresh:
+    secret: testkeytestkeytestkeytestkeytestkeytestkeytestkeytestkey
+    expiration: 60000
