@@ -36,6 +36,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/**").permitAll()
+                        .requestMatchers("/actuator/health").permitAll()
                         .anyRequest().denyAll()
                 )
                 .headers(headers -> headers
