@@ -12,6 +12,7 @@ import site.treetory.global.security.auth.CustomUserDetails;
 public class LoginArgumentResolver implements HandlerMethodArgumentResolver {
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
+
         boolean hasLoginMemberAnnotation = parameter.hasParameterAnnotation(LoginMember.class);
         boolean hasMemberType = Member.class.isAssignableFrom(parameter.getParameterType());
 
@@ -20,6 +21,7 @@ public class LoginArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
+
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (principal.equals("anonymousUser")) {
