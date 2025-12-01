@@ -8,13 +8,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.treetory.domain.member.entity.Member;
 import site.treetory.domain.tree.enums.Background;
-import site.treetory.domain.tree.enums.Size;
 import site.treetory.domain.tree.enums.Theme;
 
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
 import static site.treetory.domain.tree.enums.Theme.SNOWY;
-
 
 @Entity
 @Getter
@@ -33,8 +31,7 @@ public class Tree {
     private Member member;
 
     @NotNull
-    @Enumerated(STRING)
-    private Size size;
+    private Integer size;
 
     @NotNull
     @Enumerated(STRING)
@@ -47,9 +44,8 @@ public class Tree {
     public static Tree createBasicTree(Member member) {
 
         return Tree.builder()
-//                .id(member.getId())
                 .member(member)
-                .size(Size.SMALL)
+                .size(1)
                 .theme(SNOWY)
                 .background(Background.SILENT_NIGHT)
                 .build();

@@ -2,4 +2,4 @@ insert into member (member_id, uuid, email, nickname, role, is_deleted, created_
         (1, 'b8a3eb59-b956-4df9-8a55-80784016b8d4', 'test@test.com', '테스트유저', 'ROLE_USER', false, current_timestamp, current_timestamp);
 
 insert into tree (member_id, size, theme, background) values
-                                                          (1, 'SMALL', 'SNOWY', 'SILENT_NIGHT');
+                                                          (1, 1, 'SNOWY', 'SILENT_NIGHT');
