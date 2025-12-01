@@ -36,41 +36,6 @@ jobs:
       - name: Gradle Clean Build
         run: ./gradlew clean build
   
-  assign-reviewer:
-    needs: gradle-clean-build
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Assign reviewer
-        uses: actions/github-script@v6
-        with: 
-          github-token: '${{ github.token }}'
-          script: |
-            const user1 = process.env.USER_1;
-            const user2 = process.env.USER_2;
-            const actor = context.actor;
-            
-            let reviewer = "";
-            
-            if (actor === user1) {
-              reviewer = user2;
-            } else if (actor === user2) {
-              reviewer = user1;
-            } else {
-              reviewer = user1;
-            }
-            
-            reviewer = user1;
-            
-            if (reviewer) {
-              await github.rest.pulls.requestReviewers({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                pull_number: context.issue.number,
-                reviewers: [reviewer]
-              });
-              console.log(`Reviewer assigned: ${reviewer}`);
-            }
   deploy:
     needs: gradle-clean-build
     if: github.event_name == 'push'
