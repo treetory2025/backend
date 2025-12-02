@@ -1,9 +1,9 @@
 package site.treetory.domain.member.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import site.treetory.domain.member.dto.req.ChangeNicknameReq;
 import site.treetory.domain.member.dto.res.MemberDetailsRes;
 import site.treetory.domain.member.entity.Member;
 import site.treetory.domain.member.service.MemberService;
@@ -25,5 +25,14 @@ public class MemberController {
         MemberDetailsRes result = memberService.getMemberDetails(member);
 
         return ResponseDto.success(OK, result);
+    }
+
+    @PatchMapping("/nicknames")
+    public ResponseDto<Void> changeNickname(@LoginMember Member member,
+                                            @Valid @RequestBody ChangeNicknameReq changeNicknameReq) {
+
+        memberService.changeNickname(member, changeNicknameReq);
+
+        return ResponseDto.success(OK);
     }
 }

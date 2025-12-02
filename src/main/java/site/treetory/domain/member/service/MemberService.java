@@ -3,8 +3,10 @@ package site.treetory.domain.member.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import site.treetory.domain.member.dto.req.ChangeNicknameReq;
 import site.treetory.domain.member.dto.res.MemberDetailsRes;
 import site.treetory.domain.member.entity.Member;
+import site.treetory.domain.member.repository.MemberRepository;
 import site.treetory.domain.tree.entity.Tree;
 import site.treetory.domain.tree.repository.TreeRepository;
 import site.treetory.global.exception.CustomException;
@@ -16,6 +18,7 @@ import static site.treetory.global.statuscode.ErrorCode.NOT_FOUND;
 @RequiredArgsConstructor
 public class MemberService {
 
+    private final MemberRepository memberRepository;
     private final TreeRepository treeRepository;
 
     public MemberDetailsRes getMemberDetails(Member member) {
@@ -24,5 +27,13 @@ public class MemberService {
                 .orElseThrow(() -> new CustomException(NOT_FOUND));
 
         return MemberDetailsRes.toDto(member, tree);
+    }
+
+    @Transactional
+    public void changeNickname(Member member, ChangeNicknameReq changeNicknameReq) {
+
+        member.changeNickname(changeNicknameReq.getNickname());
+
+        memberRepository.save(member);
     }
 }
