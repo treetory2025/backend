@@ -2,6 +2,7 @@ package site.treetory.domain.tree.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import site.treetory.domain.member.entity.Member;
 import site.treetory.domain.member.repository.MemberRepository;
 import site.treetory.domain.tree.dto.res.TreeDetailsRes;
@@ -23,6 +24,7 @@ public class TreeService {
     private final TreeRepository treeRepository;
     private final PlacedOrnamentRepository placedOrnamentRepository;
 
+    @Transactional(readOnly = true)
     public TreeDetailsRes getTreeDetails(String uuid) {
         Member member = memberRepository.findByUuid(uuid)
                 .orElseThrow(() -> new CustomException(NOT_FOUND));
