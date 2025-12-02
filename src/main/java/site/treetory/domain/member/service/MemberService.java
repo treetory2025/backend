@@ -62,4 +62,15 @@ public class MemberService {
                 .targetMember(targetMember)
                 .build();
     }
+
+    @Transactional
+    public void deleteBookmark(Member member, String targetMemberId) {
+
+        Member targetMember = memberRepository.findByUuid(targetMemberId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND));
+
+        BookmarkId bookmarkId = new BookmarkId(member.getId(), targetMember.getId());
+
+        bookmarkRepository.deleteById(bookmarkId);
+    }
 }

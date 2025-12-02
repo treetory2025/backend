@@ -10,7 +10,7 @@ import site.treetory.domain.member.service.MemberService;
 import site.treetory.global.argument_resolver.LoginMember;
 import site.treetory.global.dto.ResponseDto;
 
-import static site.treetory.global.statuscode.SuccessCode.OK;
+import static site.treetory.global.statuscode.SuccessCode.*;
 
 @RestController
 @RequestMapping("/api/members")
@@ -41,6 +41,14 @@ public class MemberController {
 
         memberService.addBookmark(member, targetMemberId);
 
-        return ResponseDto.success(OK);
+        return ResponseDto.success(CREATED);
+    }
+
+    @DeleteMapping("/bookmarks/{targetMemberId}")
+    public ResponseDto<Void> deleteBookmark(@LoginMember Member member, @PathVariable String targetMemberId) {
+
+        memberService.deleteBookmark(member, targetMemberId);
+
+        return ResponseDto.success(NO_CONTENT);
     }
 }
