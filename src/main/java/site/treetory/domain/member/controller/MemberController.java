@@ -19,7 +19,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @GetMapping
+    @GetMapping("/me")
     public ResponseDto<MemberDetailsRes> memberDetails(@LoginMember Member member) {
 
         MemberDetailsRes result = memberService.getMemberDetails(member);
