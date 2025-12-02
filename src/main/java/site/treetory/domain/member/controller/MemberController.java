@@ -35,4 +35,12 @@ public class MemberController {
 
         return ResponseDto.success(OK);
     }
+
+    @PostMapping("/bookmarks/{targetMemberId}")
+    public ResponseDto<Void> addBookmark(@LoginMember Member member, @PathVariable String targetMemberId) {
+
+        memberService.addBookmark(member, targetMemberId);
+
+        return ResponseDto.success(OK);
+    }
 }
