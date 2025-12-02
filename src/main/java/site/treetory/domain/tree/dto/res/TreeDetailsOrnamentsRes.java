@@ -20,7 +20,7 @@ public class TreeDetailsOrnamentsRes {
 
     private Integer positionY;
 
-    private Integer size;
+    private String size;
 
     private String imgUrl;
 
@@ -32,7 +32,7 @@ public class TreeDetailsOrnamentsRes {
                 .writerNickname(placedOrnament.getWriterNickname())
                 .positionX(placedOrnament.getPositionX())
                 .positionY(placedOrnament.getPositionY())
-                .size(Size.getRadius(placedOrnament.getMessage().length()))
+                .size(Size.getSize(placedOrnament.getMessage().length()))
                 .imgUrl(placedOrnament.getOrnament().getImgUrl())
                 .createdDate(DateFormatter.convertToDate(placedOrnament.getCreatedAt()))
                 .build();
