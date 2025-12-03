@@ -27,4 +27,13 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
             "group by m.id " +
             "order by count(p) desc")
     Page<MemberWithOrnamentsCount> findMembersByQuery(@Param("query") String query, Pageable pageable);
+
+    @Query("select m " +
+            "from Member m " +
+            "join Bookmark b " +
+            "on b.targetMember = m " +
+            "where b.member.id = :memberId " +
+            "and (m.nickname like :query or m.email like :query) " +
+            "order by b.createdAt")
+    Page<Member> bookmarkList(@Param("memberId") Long memberId, @Param("query")  String query, Pageable pageable);
 }
