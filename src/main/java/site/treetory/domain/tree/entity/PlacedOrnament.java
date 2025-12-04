@@ -10,8 +10,12 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import site.treetory.domain.member.entity.Member;
 import site.treetory.domain.tree.enums.Font;
 import site.treetory.global.entity.BaseEntity;
+import site.treetory.global.exception.CustomException;
+
+import static site.treetory.global.statuscode.ErrorCode.FORBIDDEN;
 
 @Entity
 @Getter
@@ -55,5 +59,13 @@ public class PlacedOrnament extends BaseEntity {
     @NotNull
     @Enumerated(EnumType.STRING)
     private Font font;
+
+    public void delete(Member member) {
+        if (!member.getId().equals(this.tree.getId())) {
+            throw new CustomException(FORBIDDEN);
+        }
+        
+        this.delete();
+    }
     
 }
