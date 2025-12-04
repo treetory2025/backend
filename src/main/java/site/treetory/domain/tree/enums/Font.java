@@ -23,7 +23,7 @@ public enum Font {
 
     public static Font getFont(String font) {
         return Optional.ofNullable(FONT_MAP.get(font))
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND));
+                .orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST));
     }
 
     private final String description;
