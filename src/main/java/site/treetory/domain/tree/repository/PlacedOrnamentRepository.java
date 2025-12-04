@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface PlacedOrnamentRepository extends JpaRepository<PlacedOrnament, Long> {
+    
     List<PlacedOrnament> findAllByTreeId(Long treeId);
 }

@@ -1,15 +1,16 @@
 package site.treetory.domain.tree.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import site.treetory.domain.member.entity.Member;
+import site.treetory.domain.tree.dto.req.PlaceOrnamentReq;
 import site.treetory.domain.tree.dto.res.TreeDetailsRes;
 import site.treetory.domain.tree.service.TreeService;
+import site.treetory.global.argument_resolver.LoginMember;
 import site.treetory.global.dto.ResponseDto;
 
-import static site.treetory.global.statuscode.SuccessCode.OK;
+import static site.treetory.global.statuscode.SuccessCode.*;
 
 @RestController
 @RequestMapping("/api/trees")
@@ -21,7 +22,23 @@ public class TreeController {
     @GetMapping("/{uuid}")
     public ResponseDto<TreeDetailsRes> treeDetails(@PathVariable String uuid) {
         TreeDetailsRes result = treeService.getTreeDetails(uuid);
-        
+
         return ResponseDto.success(OK, result);
+    }
+
+    @PostMapping("/{uuid}/ornaments")
+    public ResponseDto<Void> placeOrnament(@PathVariable String uuid,
+                                           @Valid @RequestBody PlaceOrnamentReq placeOrnamentReq) {
+        treeService.placeOrnament(uuid, placeOrnamentReq);
+
+        return ResponseDto.success(CREATED);
+    }
+
+    @DeleteMapping("/ornaments/{placedOrnamentId}")
+    public ResponseDto<Void> deleteOrnament(@LoginMember Member member,
+                                            @PathVariable Long placedOrnamentId) {
+        treeService.deleteOrnament(member, placedOrnamentId);
+
+        return ResponseDto.success(NO_CONTENT);
     }
 }
