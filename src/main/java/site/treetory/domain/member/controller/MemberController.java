@@ -5,8 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+import site.treetory.domain.member.dto.req.BookmarkListReq;
 import site.treetory.domain.member.dto.req.ChangeNicknameReq;
 import site.treetory.domain.member.dto.req.SearchMembersReq;
+import site.treetory.domain.member.dto.res.BookmarkListRes;
 import site.treetory.domain.member.dto.res.MemberDetailsRes;
 import site.treetory.domain.member.dto.res.SearchMembersRes;
 import site.treetory.domain.member.entity.Member;
@@ -47,6 +49,16 @@ public class MemberController {
         memberService.changeNickname(member, changeNicknameReq);
 
         return ResponseDto.success(OK);
+    }
+
+    @GetMapping("/bookmarks")
+    public ResponseDto<BookmarkListRes> bookmarkList(@LoginMember Member member,
+                                                     @ModelAttribute @Valid BookmarkListReq bookmarkListReq,
+                                                     @PageableDefault Pageable pageable) {
+
+        BookmarkListRes result = memberService.bookmarkList(member, bookmarkListReq, pageable);
+
+        return ResponseDto.success(OK, result);
     }
 
     @PostMapping("/bookmarks/{targetMemberId}")

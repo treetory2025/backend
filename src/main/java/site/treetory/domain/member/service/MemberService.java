@@ -6,8 +6,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.treetory.domain.member.dto.MemberWithOrnamentsCount;
+import site.treetory.domain.member.dto.req.BookmarkListReq;
 import site.treetory.domain.member.dto.req.ChangeNicknameReq;
 import site.treetory.domain.member.dto.req.SearchMembersReq;
+import site.treetory.domain.member.dto.res.BookmarkListRes;
 import site.treetory.domain.member.dto.res.MemberDetailsRes;
 import site.treetory.domain.member.dto.res.SearchMembersRes;
 import site.treetory.domain.member.entity.Bookmark;
@@ -53,6 +55,13 @@ public class MemberService {
         member.changeNickname(changeNicknameReq.getNickname());
 
         memberRepository.save(member);
+    }
+
+    public BookmarkListRes bookmarkList(Member member, BookmarkListReq bookmarkListReq, Pageable pageable) {
+
+        Page<Member> members = memberRepository.bookmarkList(member.getId(), bookmarkListReq.getQuery(), pageable);
+
+        return new BookmarkListRes(members);
     }
 
     @Transactional
