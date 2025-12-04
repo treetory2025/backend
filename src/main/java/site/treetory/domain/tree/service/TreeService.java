@@ -10,6 +10,7 @@ import site.treetory.domain.tree.dto.res.TreeDetailsRes;
 import site.treetory.domain.tree.entity.Ornament;
 import site.treetory.domain.tree.entity.PlacedOrnament;
 import site.treetory.domain.tree.entity.Tree;
+import site.treetory.domain.tree.enums.Font;
 import site.treetory.domain.tree.repository.OrnamentRepository;
 import site.treetory.domain.tree.repository.PlacedOrnamentRepository;
 import site.treetory.domain.tree.repository.TreeRepository;
@@ -55,6 +56,7 @@ public class TreeService {
                 .positionY(req.getPositionY())
                 .message(req.getMessage())
                 .writerNickname(req.getNickname())
+                .font(Font.getFont(req.getFont()))
                 .build();
 
         placedOrnamentRepository.save(placedOrnament);
