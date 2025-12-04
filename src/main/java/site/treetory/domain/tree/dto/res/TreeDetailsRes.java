@@ -22,9 +22,9 @@ public class TreeDetailsRes {
 
     private List<TreeDetailsOrnamentsRes> ornamentsRes;
 
-    public static TreeDetailsRes toDto(Member member, Tree tree, List<PlacedOrnament> placedOrnaments) {
+    public static TreeDetailsRes toDto(Tree tree, List<PlacedOrnament> placedOrnaments) {
         return TreeDetailsRes.builder()
-                .nickname(member.getNickname())
+                .nickname(tree.getMember().getNickname())
                 .treeSize(tree.getSize())
                 .treeTheme(tree.getTheme().getDescription())
                 .treeBackground(tree.getBackground().getDescription())
