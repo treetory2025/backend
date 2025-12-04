@@ -1,6 +1,7 @@
 package site.treetory.domain.tree.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.treetory.domain.member.entity.Member;
@@ -17,9 +18,11 @@ import site.treetory.domain.tree.repository.TreeRepository;
 import site.treetory.global.exception.CustomException;
 
 import java.util.List;
+import java.util.Optional;
 
 import static site.treetory.global.statuscode.ErrorCode.*;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TreeService {
@@ -66,7 +69,17 @@ public class TreeService {
     public void deleteOrnament(Member member, Long placedOrnamentId) {
 
         placedOrnamentRepository.findById(placedOrnamentId)
-                .orElseThrow(() -> new CustomException(NOT_FOUND))
-                .delete(member);
+                .ifPresentOrElse(placedOrnament -> {
+                            validateOwner(member, placedOrnament);
+                            placedOrnamentRepository.delete(placedOrnament);
+                        }, () -> log.warn("삭제하려는 장식을 찾을 수 없습니다. ID: {}", placedOrnamentId)
+                );
+    }
+
+    private void validateOwner(Member member, PlacedOrnament placedOrnament) {
+
+        if (!member.getId().equals(placedOrnament.getTree().getId())) {
+            throw new CustomException(FORBIDDEN);
+        }
     }
 }

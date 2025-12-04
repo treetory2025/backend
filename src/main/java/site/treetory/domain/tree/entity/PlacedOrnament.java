@@ -59,13 +59,4 @@ public class PlacedOrnament extends BaseEntity {
     @NotNull
     @Enumerated(EnumType.STRING)
     private Font font;
-
-    public void delete(Member member) {
-        if (!member.getId().equals(this.tree.getId())) {
-            throw new CustomException(FORBIDDEN);
-        }
-        
-        this.delete();
-    }
-    
 }
