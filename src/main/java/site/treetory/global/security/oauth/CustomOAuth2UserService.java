@@ -15,6 +15,8 @@ import site.treetory.global.security.response.GoogleResponse;
 import site.treetory.global.security.response.KakaoResponse;
 import site.treetory.global.security.response.OAuth2Response;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -41,10 +43,18 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         String email = oAuth2Response.getEmail();
 
-        Member member = memberRepository.findByEmail(email).orElseGet(oAuth2Response::toEntity);
-        memberRepository.save(member);
+        Optional<Member> oMember = memberRepository.findByEmail(email);
 
-        treeRepository.save(Tree.createBasicTree(member));
+        Member member;
+
+        if (oMember.isEmpty()) {
+            member = oAuth2Response.toEntity();
+
+            memberRepository.save(member);
+            treeRepository.save(Tree.createBasicTree(member));
+        } else {
+            member = oMember.get();
+        }
 
         return new CustomOAuth2User(member, oAuth2User);
     }
