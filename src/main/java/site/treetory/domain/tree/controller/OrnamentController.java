@@ -1,0 +1,61 @@
+package site.treetory.domain.tree.controller;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.web.bind.annotation.*;
+import site.treetory.domain.member.entity.Member;
+import site.treetory.domain.tree.dto.req.AddOrnamentReq;
+import site.treetory.domain.tree.dto.res.OrnamentListRes;
+import site.treetory.domain.tree.dto.res.OrnamentNameExistsRes;
+import site.treetory.domain.tree.service.OrnamentService;
+import site.treetory.global.argument_resolver.LoginMember;
+import site.treetory.global.dto.ResponseDto;
+
+import static site.treetory.global.statuscode.SuccessCode.CREATED;
+import static site.treetory.global.statuscode.SuccessCode.OK;
+
+@Slf4j
+@RestController
+@RequestMapping("/api/ornaments")
+@RequiredArgsConstructor
+public class OrnamentController {
+
+    private final OrnamentService ornamentService;
+
+    private final int ORNAMENT_PAGE_SIZE = 18;
+    private final String ORNAMENT_SORT_KEY = "createdAt";
+
+    @GetMapping
+    public ResponseDto<OrnamentListRes> getOrnaments(@RequestParam(required = false) String category,
+                                                     @RequestParam(required = false, defaultValue = "0") int page) {
+        page = page < 0 ? 0 : page;
+
+        PageRequest pageable = PageRequest.of(page,
+                ORNAMENT_PAGE_SIZE,
+                Sort.by(Sort.Direction.DESC, ORNAMENT_SORT_KEY)
+        );
+
+        OrnamentListRes result = ornamentService.getOrnaments(category, pageable);
+
+        return ResponseDto.success(OK, result);
+    }
+
+    @PostMapping
+    public ResponseDto<Void> addOrnament(@LoginMember Member member,
+                                         @Valid @RequestBody AddOrnamentReq addOrnamentReq) {
+        log.info("Add Ornament Request! MemberId: {}, OrnamentName: {}", member.getId(), addOrnamentReq.getName());
+        ornamentService.addOrnament(addOrnamentReq);
+
+        return ResponseDto.success(CREATED);
+    }
+
+    @GetMapping("/exists")
+    public ResponseDto<OrnamentNameExistsRes> checkOrnamentNameExists(@RequestParam String name) {
+        OrnamentNameExistsRes result = ornamentService.checkOrnamentNameExists(name);
+
+        return ResponseDto.success(OK, result);
+    }
+}

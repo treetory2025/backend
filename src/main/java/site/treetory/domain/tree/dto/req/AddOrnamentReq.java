@@ -6,29 +6,25 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import site.treetory.global.nickname.NicknameValid;
+import org.hibernate.validator.constraints.Length;
 
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PlaceOrnamentReq {
-
-    @NotNull
-    private Long ornamentId;
-
-    @NicknameValid
-    private String nickname;
+public class AddOrnamentReq {
 
     @NotBlank
-    private String message;
-    
-    @NotNull
-    private Integer positionX;
-    
-    @NotNull
-    private Integer positionY;
+    @Length(max = 10)
+    private String name;
 
     @NotNull
-    private String font;
+    private String category;
+
+    @NotNull
+    @Length(max = 255)
+    private String imgUrl;
+
+    @NotNull
+    private Boolean isPublic;
 }
