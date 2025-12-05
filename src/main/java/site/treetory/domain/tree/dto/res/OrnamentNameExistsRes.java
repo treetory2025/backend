@@ -7,5 +7,5 @@ import lombok.Getter;
 @Builder
 public class OrnamentNameExistsRes {
 
-    private Boolean isExists;
+    private Boolean exists;
 }

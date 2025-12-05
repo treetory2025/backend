@@ -38,7 +38,7 @@ public class OrnamentService {
         Boolean exists = ornamentRepository.existsByName(name);
 
         return OrnamentNameExistsRes.builder()
-                .isExists(exists)
+                .exists(exists)
                 .build();
     }
 }
