@@ -11,4 +11,4 @@ values (1, 'name', 'CHRISTMAS', 'urlurl', true, false, current_timestamp, curren
 
 insert into placed_ornament (placed_ornament_id, tree_id, ornament_id, position_x, position_y, message, writer_nickname,
                              font, is_deleted, created_at, modified_at)
-values (1, 1, 1, 1, 1, 'message', 'nickni', 'NANUM_HANDWRITING', false, current_timestamp, current_timestamp)
+values (1, 1, 1, 1, 1, 'message', 'nickni', 'NANUM_PEN', false, current_timestamp, current_timestamp);
