@@ -8,22 +8,29 @@ import site.treetory.domain.tree.dto.res.OrnamentNameExistsRes;
 import site.treetory.domain.tree.entity.Ornament;
 import site.treetory.domain.tree.enums.Category;
 import site.treetory.domain.tree.repository.OrnamentRepository;
+import site.treetory.global.exception.CustomException;
 
 import java.util.List;
+
+import static site.treetory.global.statuscode.ErrorCode.BAD_REQUEST;
 
 @Service
 @RequiredArgsConstructor
 public class OrnamentService {
 
     private final OrnamentRepository ornamentRepository;
-    
+
     public OrnamentListRes getOrnaments() {
         List<Ornament> ornaments = ornamentRepository.findAll();
-        
+
         return OrnamentListRes.toDto(ornaments);
     }
 
     public void addOrnament(AddOrnamentReq req) {
+        if (ornamentRepository.existsByName(req.getName())) {
+            throw new CustomException(BAD_REQUEST);
+        }
+        
         Ornament ornament = Ornament.builder()
                 .name(req.getName())
                 .category(Category.getCategory(req.getCategory()))
