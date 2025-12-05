@@ -2,23 +2,20 @@ package site.treetory.domain.tree.dto.res;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.data.domain.Page;
 import site.treetory.domain.tree.entity.Ornament;
-
-import java.util.List;
+import site.treetory.global.dto.PageDto;
 
 @Getter
 @Builder
 public class OrnamentListRes {
 
-    private List<OrnamentDto> ornaments;
+    private PageDto<OrnamentDto> ornaments;
 
-    public static OrnamentListRes toDto(List<Ornament> ornaments) {
-        List<OrnamentDto> ornamentList = ornaments.stream()
-                .map(OrnamentDto::toDto)
-                .toList();
+    public static OrnamentListRes toDto(Page<Ornament> ornaments) {
 
         return OrnamentListRes.builder()
-                .ornaments(ornamentList)
+                .ornaments(new PageDto<>(ornaments.map(OrnamentDto::toDto)))
                 .build();
     }
 

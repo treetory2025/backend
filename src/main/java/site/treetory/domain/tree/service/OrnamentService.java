@@ -1,6 +1,8 @@
 package site.treetory.domain.tree.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import site.treetory.domain.tree.dto.req.AddOrnamentReq;
 import site.treetory.domain.tree.dto.res.OrnamentListRes;
@@ -10,8 +12,6 @@ import site.treetory.domain.tree.enums.Category;
 import site.treetory.domain.tree.repository.OrnamentRepository;
 import site.treetory.global.exception.CustomException;
 
-import java.util.List;
-
 import static site.treetory.global.statuscode.ErrorCode.BAD_REQUEST;
 
 @Service
@@ -20,8 +20,14 @@ public class OrnamentService {
 
     private final OrnamentRepository ornamentRepository;
 
-    public OrnamentListRes getOrnaments() {
-        List<Ornament> ornaments = ornamentRepository.findAll();
+    public OrnamentListRes getOrnaments(String category, Pageable pageable) {
+
+        Page<Ornament> ornaments;
+        if (category == null) {
+            ornaments = ornamentRepository.findAll(pageable);
+        } else {
+            ornaments = ornamentRepository.findAllByCategory(Category.getCategory(category), pageable);
+        }
 
         return OrnamentListRes.toDto(ornaments);
     }
