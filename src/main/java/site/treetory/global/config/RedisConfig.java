@@ -60,7 +60,7 @@ public class RedisConfig {
     public ProxyManager<String> lettuceBasedProxyManager(StatefulRedisConnection<String, byte[]> bucket4jConnection) {
         return LettuceBasedProxyManager.builderFor(bucket4jConnection)
                 .withExpirationStrategy(
-                        ExpirationAfterWriteStrategy.basedOnTimeForRefillingBucketUpToMax(Duration.ofMinutes(1L)))
+                        ExpirationAfterWriteStrategy.basedOnTimeForRefillingBucketUpToMax(Duration.ofDays(1L)))
                 .build();
     }
 }

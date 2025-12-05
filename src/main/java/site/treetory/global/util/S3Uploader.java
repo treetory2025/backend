@@ -120,7 +120,7 @@ public class S3Uploader {
     private Supplier<BucketConfiguration> getConfigSupplier() {
 
         return () -> BucketConfiguration.builder()
-                .addLimit(limit -> limit.capacity(3).refillIntervally(3, Duration.ofMinutes(1)))
+                .addLimit(limit -> limit.capacity(50).refillIntervally(2, Duration.ofHours(1L)))
                 .build();
     }
 }
