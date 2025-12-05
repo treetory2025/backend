@@ -6,4 +6,6 @@ import site.treetory.domain.tree.entity.Ornament;
 
 @Repository
 public interface OrnamentRepository extends JpaRepository<Ornament, Long> {
+    
+    Boolean existsByName(String name);
 }
