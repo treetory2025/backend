@@ -37,8 +37,7 @@ public class OrnamentController {
     }
 
     @GetMapping("/exists")
-    public ResponseDto<OrnamentNameExistsRes> checkOrnamentNameExists(@LoginMember Member member,
-                                                                      @RequestParam String name) {
+    public ResponseDto<OrnamentNameExistsRes> checkOrnamentNameExists(@RequestParam String name) {
         OrnamentNameExistsRes result = ornamentService.checkOrnamentNameExists(name);
 
         return ResponseDto.success(OK, result);
