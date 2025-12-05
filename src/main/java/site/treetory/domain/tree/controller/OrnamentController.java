@@ -2,6 +2,7 @@ package site.treetory.domain.tree.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import site.treetory.global.dto.ResponseDto;
 import static site.treetory.global.statuscode.SuccessCode.CREATED;
 import static site.treetory.global.statuscode.SuccessCode.OK;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/ornaments")
 @RequiredArgsConstructor
@@ -44,6 +46,7 @@ public class OrnamentController {
     @PostMapping
     public ResponseDto<Void> addOrnament(@LoginMember Member member,
                                          @Valid @RequestBody AddOrnamentReq addOrnamentReq) {
+        log.info("Add Ornament Request! MemberId: {}, OrnamentName: {}", member.getId(), addOrnamentReq.getName());
         ornamentService.addOrnament(addOrnamentReq);
 
         return ResponseDto.success(CREATED);
