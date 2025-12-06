@@ -4,13 +4,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import site.treetory.domain.member.entity.Member;
 import site.treetory.domain.tree.dto.req.AddOrnamentReq;
 import site.treetory.domain.tree.dto.res.OrnamentListRes;
 import site.treetory.domain.tree.dto.res.OrnamentNameExistsRes;
+import site.treetory.domain.tree.dto.res.UploadImageRes;
 import site.treetory.domain.tree.entity.Ornament;
 import site.treetory.domain.tree.enums.Category;
 import site.treetory.domain.tree.repository.OrnamentRepository;
 import site.treetory.global.exception.CustomException;
+import site.treetory.global.util.S3Uploader;
 
 import static site.treetory.global.statuscode.ErrorCode.BAD_REQUEST;
 
@@ -19,6 +23,7 @@ import static site.treetory.global.statuscode.ErrorCode.BAD_REQUEST;
 public class OrnamentService {
 
     private final OrnamentRepository ornamentRepository;
+    private final S3Uploader s3Uploader;
 
     public OrnamentListRes getOrnaments(String category, Pageable pageable) {
 
@@ -53,5 +58,14 @@ public class OrnamentService {
         return OrnamentNameExistsRes.builder()
                 .exists(exists)
                 .build();
+    }
+
+    public UploadImageRes uploadImageRes(Member member, MultipartFile image) {
+
+        String dirName = "members/" + member.getUuid() + "/ornaments";
+
+        String imageUrl = s3Uploader.upload(member.getId(), image, dirName);
+
+        return new UploadImageRes(imageUrl);
     }
 }

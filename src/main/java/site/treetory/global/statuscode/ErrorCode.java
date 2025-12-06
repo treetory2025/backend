@@ -11,7 +11,9 @@ public enum ErrorCode {
     INVALID_TOKEN(401, "Invalid Token"),
     FORBIDDEN(403, "Forbidden"),
     NOT_FOUND(404, "Not Found"),
+    TOO_MANY_REQUESTS(429, "Too Many Requests"),
     INTERNAL_SERVER_ERROR(500, "Internal Server Error"),
+    IMAGE_UPLOAD_FAIL(500, "Image Upload Failure"),
     ;
 
     private final int httpStatusCode;
