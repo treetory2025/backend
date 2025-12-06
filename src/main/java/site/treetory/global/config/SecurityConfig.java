@@ -17,6 +17,7 @@ import site.treetory.global.security.oauth.CustomOAuth2UserService;
 import site.treetory.global.security.oauth.Oauth2SuccessHandler;
 import site.treetory.global.util.CookieUtils;
 
+import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
@@ -36,8 +37,11 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers(GET, "/api/trees/*").permitAll()
+                        .requestMatchers(POST, "/api/trees/*/ornaments").permitAll()
+                        .requestMatchers(GET, "/api/ornaments").permitAll()
                         .requestMatchers("/api/**").authenticated()
-                        .requestMatchers("/actuator/health").permitAll()
+                        .requestMatchers(GET, "/actuator/health").permitAll()
                         .anyRequest().denyAll()
                 )
                 .headers(headers -> headers
