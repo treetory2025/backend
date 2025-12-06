@@ -21,3 +21,14 @@ jwt:
   refresh:
     secret: testkeytestkeytestkeytestkeytestkeytestkeytestkeytestkey
     expiration: 60000
+
+cloud:
+  aws:
+    credentials:
+      access-key: testkeytestkeytestkeytestkeytestkeytestkeytestkeytestkey
+      secret-key: testkeytestkeytestkeytestkeytestkeytestkeytestkeytestkey
+    region:
+      static: ap-northeast-2
+    s3:
+      bucket: test_bucket
+      url: test_url

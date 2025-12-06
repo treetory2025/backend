@@ -38,7 +38,7 @@ public class S3Uploader {
     @Value("${cloud.aws.s3.bucket}")
     private String s3bucket;
 
-    @Value("${BUCKET_URL}")
+    @Value("${cloud.aws.s3.url}")
     private String bucketUrl;
 
     public String upload(Long memberId, MultipartFile multipartFile, String dirName) {
