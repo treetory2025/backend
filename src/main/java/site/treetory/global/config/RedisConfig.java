@@ -11,6 +11,7 @@ import io.lettuce.core.codec.RedisCodec;
 import io.lettuce.core.codec.StringCodec;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.data.redis.RedisConnectionDetails;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
@@ -44,10 +45,10 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisClient redisClient() {
+    public RedisClient redisClient(RedisConnectionDetails connectionDetails) {
         return RedisClient.create(RedisURI.builder()
-                .withHost(host)
-                .withPort(port)
+                .withHost(connectionDetails.getStandalone().getHost())
+                .withPort(connectionDetails.getStandalone().getPort())
                 .build());
     }
 
