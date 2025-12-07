@@ -35,7 +35,7 @@ public class MemberController {
 
     @GetMapping
     public ResponseDto<SearchMembersRes> searchMembers(@ModelAttribute @Valid SearchMembersReq searchMembersReq,
-                                                       @PageableDefault Pageable pageable) {
+                                                       @PageableDefault(size = 5) Pageable pageable) {
 
         SearchMembersRes result = memberService.searchMembers(searchMembersReq, pageable);
 
@@ -54,7 +54,7 @@ public class MemberController {
     @GetMapping("/bookmarks")
     public ResponseDto<BookmarkListRes> bookmarkList(@LoginMember Member member,
                                                      @ModelAttribute @Valid BookmarkListReq bookmarkListReq,
-                                                     @PageableDefault Pageable pageable) {
+                                                     @PageableDefault(size = 6) Pageable pageable) {
 
         BookmarkListRes result = memberService.bookmarkList(member, bookmarkListReq, pageable);
 
