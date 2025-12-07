@@ -12,10 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
+import site.treetory.global.config.TestContainersConfig;
 import site.treetory.global.security.jwt.JwtProperties;
 import site.treetory.global.security.jwt.JwtUtils;
 import site.treetory.global.util.CookieUtils;
@@ -43,6 +45,7 @@ import static site.treetory.utils.ResponseFieldUtils.getCommonResponseFields;
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
 @ExtendWith(RestDocumentationExtension.class)
+@Import(TestContainersConfig.class)
 public class MemberControllerTest {
 
     @Autowired
