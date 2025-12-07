@@ -39,13 +39,14 @@ public class OrnamentService {
         return OrnamentListRes.toDto(ornaments);
     }
 
-    public void addOrnament(AddOrnamentReq req) {
-        
+    public void addOrnament(Member member, AddOrnamentReq req) {
+
         if (ornamentRepository.existsByName(req.getName())) {
             throw new CustomException(BAD_REQUEST);
         }
-        
+
         Ornament ornament = Ornament.builder()
+                .member(member)
                 .name(req.getName())
                 .category(Category.getCategory(req.getCategory()))
                 .imgUrl(req.getImgUrl())
@@ -56,7 +57,7 @@ public class OrnamentService {
     }
 
     public OrnamentNameExistsRes checkOrnamentNameExists(String name) {
-        
+
         Boolean exists = ornamentRepository.existsByName(name);
 
         return OrnamentNameExistsRes.builder()

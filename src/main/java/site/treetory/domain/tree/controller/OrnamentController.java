@@ -34,6 +34,7 @@ public class OrnamentController {
     @GetMapping
     public ResponseDto<OrnamentListRes> getOrnaments(@RequestParam(required = false) String category,
                                                      @RequestParam(required = false, defaultValue = "0") int page) {
+        
         page = page < 0 ? 0 : page;
 
         PageRequest pageable = PageRequest.of(page,
@@ -49,14 +50,15 @@ public class OrnamentController {
     @PostMapping
     public ResponseDto<Void> addOrnament(@LoginMember Member member,
                                          @Valid @RequestBody AddOrnamentReq addOrnamentReq) {
-        log.info("Add Ornament Request! MemberId: {}, OrnamentName: {}", member.getId(), addOrnamentReq.getName());
-        ornamentService.addOrnament(addOrnamentReq);
+        
+        ornamentService.addOrnament(member, addOrnamentReq);
 
         return ResponseDto.success(CREATED);
     }
 
     @GetMapping("/exists")
     public ResponseDto<OrnamentNameExistsRes> checkOrnamentNameExists(@RequestParam String name) {
+        
         OrnamentNameExistsRes result = ornamentService.checkOrnamentNameExists(name);
 
         return ResponseDto.success(OK, result);
@@ -73,6 +75,7 @@ public class OrnamentController {
 
     @GetMapping("/{ornamentId}")
     public ResponseDto<OrnamentDetailsRes> getOrnamentDetails(@PathVariable Long ornamentId) {
+        
         OrnamentDetailsRes result = ornamentService.getOrnamentDetails(ornamentId);
         
         return ResponseDto.success(OK, result);
