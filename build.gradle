@@ -1,7 +1,13 @@
+import org.hidetake.gradle.swagger.generator.GenerateSwaggerUI
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.5.8'
-	id 'io.spring.dependency-management' version '1.1.7'
+    id 'java'
+    id 'org.springframework.boot' version '3.5.8'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.asciidoctor.jvm.convert' version '3.3.2'
+    id 'com.epages.restdocs-api-spec' version '0.19.4'
+    id 'org.hidetake.swagger.generator' version '2.18.2'
 }
 
 group = 'dotory-factory'
@@ -9,13 +15,13 @@ version = '0.0.1-SNAPSHOT'
 description = 'Treetory'
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
-	}
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
@@ -52,6 +58,8 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    swaggerUI 'org.webjars:swagger-ui:4.11.1'
 }
 
 jar {
@@ -59,5 +67,50 @@ jar {
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
+}
+
+swaggerSources {
+    sample {
+        setInputFile(file("${project.buildDir}/api-spec/openapi3.yaml"))
+    }
+}
+
+ext {
+    serverUrl = project.findProperty('serverUrl')
+}
+
+openapi3 {
+    server = "${serverUrl}"
+    title = 'Treetory API Docs'
+    description = 'Treetory API description'
+    version = '0.1.0'
+    format = 'yaml'
+}
+
+tasks.withType(GenerateSwaggerUI).configureEach {
+    dependsOn 'openapi3'
+}
+
+tasks.register('copySwaggerUI', Copy) {
+    dependsOn 'generateSwaggerUISample'
+    def generateSwaggerUISampleTask = tasks.named('generateSwaggerUISample', GenerateSwaggerUI).get()
+    from("${generateSwaggerUISampleTask.outputDir}")
+    into("${project.buildDir}/resources/main/static/api/docs")
+}
+
+tasks.withType(BootJar).configureEach {
+    dependsOn 'copySwaggerUI'
+}
+
+tasks.named('jar').configure {
+    dependsOn("openapi3")
+}
+
+tasks.named('jar') {
+    dependsOn 'copySwaggerUI'
+}
+
+tasks.named('resolveMainClassName') {
+    dependsOn 'copySwaggerUI'
 }
