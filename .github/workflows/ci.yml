@@ -13,10 +13,6 @@ on:
       - main
       - develop
 
-env: 
-  USER_1: "dwd9999"
-  USER_2: "Cutaku"
-
 jobs:
   gradle-clean-build:
     runs-on: ubuntu-22.04
