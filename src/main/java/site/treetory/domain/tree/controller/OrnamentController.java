@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import site.treetory.domain.member.entity.Member;
 import site.treetory.domain.tree.dto.req.AddOrnamentReq;
+import site.treetory.domain.tree.dto.res.OrnamentDetailsRes;
 import site.treetory.domain.tree.dto.res.OrnamentListRes;
 import site.treetory.domain.tree.dto.res.OrnamentNameExistsRes;
 import site.treetory.domain.tree.dto.res.UploadImageRes;
@@ -68,5 +69,12 @@ public class OrnamentController {
         UploadImageRes result = ornamentService.uploadImageRes(member, image);
 
         return ResponseDto.success(CREATED, result);
+    }
+
+    @GetMapping("/{ornamentId}")
+    public ResponseDto<OrnamentDetailsRes> getOrnamentDetails(@PathVariable Long ornamentId) {
+        OrnamentDetailsRes result = ornamentService.getOrnamentDetails(ornamentId);
+        
+        return ResponseDto.success(OK, result);
     }
 }
