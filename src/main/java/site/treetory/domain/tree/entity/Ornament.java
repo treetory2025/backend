@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import site.treetory.domain.member.entity.Member;
 import site.treetory.domain.tree.enums.Category;
 import site.treetory.global.entity.BaseEntity;
 
@@ -26,6 +27,10 @@ public class Ornament extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ornament_id", columnDefinition = "INT UNSIGNED")
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
 
     @NotNull
     @Column(length = 10)
