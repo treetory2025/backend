@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +47,7 @@ import static site.treetory.utils.ResponseFieldUtils.getCommonResponseFields;
 @AutoConfigureRestDocs
 @ExtendWith(RestDocumentationExtension.class)
 @Import(TestContainersConfig.class)
+@ActiveProfiles("test")
 public class MemberControllerTest {
 
     @Autowired
