@@ -22,7 +22,7 @@ public class OrnamentDetailsRes {
     public static OrnamentDetailsRes toDto(Ornament ornament) {
         return OrnamentDetailsRes.builder()
                 .name(ornament.getName())
-                .category(ornament.getCategory().getDescription())
+                .category(ornament.getCategory().name())
                 .imgUrl(ornament.getImgUrl())
                 .userNickname(ornament.getMember().getNickname())
                 .createdDate(DateFormatter.convertToDate(ornament.getCreatedAt()))

@@ -4,6 +4,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import site.treetory.domain.member.entity.Member;
+import site.treetory.domain.tree.dto.req.ChangeBackgroundReq;
+import site.treetory.domain.tree.dto.req.ChangeThemeReq;
 import site.treetory.domain.tree.dto.req.PlaceOrnamentReq;
 import site.treetory.domain.tree.dto.res.TreeDetailsRes;
 import site.treetory.domain.tree.service.TreeService;
@@ -40,5 +42,23 @@ public class TreeController {
         treeService.deleteOrnament(member, placedOrnamentId);
 
         return ResponseDto.success(NO_CONTENT);
+    }
+
+    @PatchMapping("/theme")
+    public ResponseDto<Void> changeTheme(@LoginMember Member member,
+                                         @RequestBody ChangeThemeReq changeThemeReq) {
+
+        treeService.changeTheme(member, changeThemeReq);
+
+        return ResponseDto.success(OK);
+    }
+
+    @PatchMapping("/background")
+    public ResponseDto<Void> changeBackground(@LoginMember Member member,
+                                              @RequestBody ChangeBackgroundReq changeBackgroundReq) {
+
+        treeService.changeBackground(member, changeBackgroundReq);
+
+        return ResponseDto.success(OK);
     }
 }
