@@ -54,4 +54,8 @@ public class Tree {
     public void changeTheme(Theme theme) {
         this.theme = theme;
     }
+
+    public void changeBackground(Background background) {
+        this.background = background;
+    }
 }

@@ -5,13 +5,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.treetory.domain.member.entity.Member;
-import site.treetory.domain.member.repository.MemberRepository;
+import site.treetory.domain.tree.dto.req.ChangeBackgroundReq;
 import site.treetory.domain.tree.dto.req.ChangeThemeReq;
 import site.treetory.domain.tree.dto.req.PlaceOrnamentReq;
 import site.treetory.domain.tree.dto.res.TreeDetailsRes;
 import site.treetory.domain.tree.entity.Ornament;
 import site.treetory.domain.tree.entity.PlacedOrnament;
 import site.treetory.domain.tree.entity.Tree;
+import site.treetory.domain.tree.enums.Background;
 import site.treetory.domain.tree.enums.Font;
 import site.treetory.domain.tree.enums.Theme;
 import site.treetory.domain.tree.repository.OrnamentRepository;
@@ -20,7 +21,6 @@ import site.treetory.domain.tree.repository.TreeRepository;
 import site.treetory.global.exception.CustomException;
 
 import java.util.List;
-import java.util.Optional;
 
 import static site.treetory.global.statuscode.ErrorCode.*;
 
@@ -29,7 +29,6 @@ import static site.treetory.global.statuscode.ErrorCode.*;
 @RequiredArgsConstructor
 public class TreeService {
 
-    private final MemberRepository memberRepository;
     private final TreeRepository treeRepository;
     private final OrnamentRepository ornamentRepository;
     private final PlacedOrnamentRepository placedOrnamentRepository;
@@ -94,6 +93,19 @@ public class TreeService {
         Theme theme = Theme.getTheme(req.getTheme());
 
         tree.changeTheme(theme);
+
+        treeRepository.save(tree);
+    }
+
+    @Transactional
+    public void changeBackground(Member member, ChangeBackgroundReq req) {
+
+        Tree tree = treeRepository.findByUuid(member.getUuid())
+                .orElseThrow(() -> new CustomException(NOT_FOUND));
+
+        Background background = Background.getBackground(req.getBackground());
+
+        tree.changeBackground(background);
 
         treeRepository.save(tree);
     }
