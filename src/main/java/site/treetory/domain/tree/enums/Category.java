@@ -1,6 +1,5 @@
 package site.treetory.domain.tree.enums;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import site.treetory.global.exception.CustomException;
 
@@ -13,22 +12,18 @@ import java.util.stream.Stream;
 import static site.treetory.global.statuscode.ErrorCode.*;
 
 @Getter
-@AllArgsConstructor
 public enum Category {
-    CHRISTMAS("christmas"),
-    FOOD("food"),
-    ANIMAL("animals"),
-    ETC("etc"),
+    CHRISTMAS,
+    FOOD,
+    ANIMAL,
+    ETC,
     ;
 
     private static final Map<String, Category> CATEGORY_MAP = Stream.of(values()).collect(
-            Collectors.toUnmodifiableMap(c ->
-                    c.description, Function.identity()));
+            Collectors.toUnmodifiableMap(Enum::name, Function.identity()));
 
     public static Category getCategory(String category) {
         return Optional.ofNullable(CATEGORY_MAP.get(category))
                 .orElseThrow(() -> new CustomException(BAD_REQUEST));
     }
-
-    private final String description;
 }

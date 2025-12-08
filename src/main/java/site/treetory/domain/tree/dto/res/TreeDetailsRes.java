@@ -2,7 +2,6 @@ package site.treetory.domain.tree.dto.res;
 
 import lombok.Builder;
 import lombok.Getter;
-import site.treetory.domain.member.entity.Member;
 import site.treetory.domain.tree.entity.PlacedOrnament;
 import site.treetory.domain.tree.entity.Tree;
 
@@ -26,10 +25,9 @@ public class TreeDetailsRes {
         return TreeDetailsRes.builder()
                 .nickname(tree.getMember().getNickname())
                 .treeSize(tree.getSize())
-                .treeTheme(tree.getTheme().getDescription())
-                .treeBackground(tree.getBackground().getDescription())
+                .treeTheme(tree.getTheme().name())
+                .treeBackground(tree.getBackground().name())
                 .ornamentsRes(TreeDetailsOrnamentsRes.toDto(placedOrnaments))
                 .build();
     }
-
 }

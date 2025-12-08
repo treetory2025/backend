@@ -22,8 +22,8 @@ public class MemberDetailsRes {
         return MemberDetailsRes.builder()
                 .nickname(member.getNickname())
                 .email(member.getEmail())
-                .theme(tree.getTheme().getDescription())
-                .background(tree.getBackground().getDescription())
+                .theme(tree.getTheme().name())
+                .background(tree.getBackground().name())
                 .build();
     }
 }
