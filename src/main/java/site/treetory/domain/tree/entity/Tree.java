@@ -50,4 +50,8 @@ public class Tree {
                 .background(Background.SILENT_NIGHT)
                 .build();
     }
+
+    public void changeTheme(Theme theme) {
+        this.theme = theme;
+    }
 }

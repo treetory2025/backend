@@ -6,12 +6,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.treetory.domain.member.entity.Member;
 import site.treetory.domain.member.repository.MemberRepository;
+import site.treetory.domain.tree.dto.req.ChangeThemeReq;
 import site.treetory.domain.tree.dto.req.PlaceOrnamentReq;
 import site.treetory.domain.tree.dto.res.TreeDetailsRes;
 import site.treetory.domain.tree.entity.Ornament;
 import site.treetory.domain.tree.entity.PlacedOrnament;
 import site.treetory.domain.tree.entity.Tree;
 import site.treetory.domain.tree.enums.Font;
+import site.treetory.domain.tree.enums.Theme;
 import site.treetory.domain.tree.repository.OrnamentRepository;
 import site.treetory.domain.tree.repository.PlacedOrnamentRepository;
 import site.treetory.domain.tree.repository.TreeRepository;
@@ -81,5 +83,18 @@ public class TreeService {
         if (!member.getId().equals(placedOrnament.getTree().getId())) {
             throw new CustomException(FORBIDDEN);
         }
+    }
+
+    @Transactional
+    public void changeTheme(Member member, ChangeThemeReq req) {
+
+        Tree tree = treeRepository.findByUuid(member.getUuid())
+                .orElseThrow(() -> new CustomException(NOT_FOUND));
+
+        Theme theme = Theme.getTheme(req.getTheme());
+
+        tree.changeTheme(theme);
+
+        treeRepository.save(tree);
     }
 }
