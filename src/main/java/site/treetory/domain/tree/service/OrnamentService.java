@@ -1,6 +1,7 @@
 package site.treetory.domain.tree.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import site.treetory.domain.member.entity.Member;
 import site.treetory.domain.tree.dto.req.AddOrnamentReq;
+import site.treetory.domain.tree.dto.req.OrnamentListReq;
 import site.treetory.domain.tree.dto.res.OrnamentDetailsRes;
 import site.treetory.domain.tree.dto.res.OrnamentListRes;
 import site.treetory.domain.tree.dto.res.OrnamentNameExistsRes;
@@ -29,14 +31,9 @@ public class OrnamentService {
     private final S3Uploader s3Uploader;
 
     @Transactional(readOnly = true)
-    public OrnamentListRes getOrnaments(String category, Pageable pageable) {
-
-        Page<Ornament> ornaments;
-        if (category == null) {
-            ornaments = ornamentRepository.findAll(pageable);
-        } else {
-            ornaments = ornamentRepository.findAllByCategory(Category.getCategory(category), pageable);
-        }
+    public OrnamentListRes getOrnaments(OrnamentListReq req, Pageable pageable) {
+        
+        Page<Ornament> ornaments = ornamentRepository.searchOrnaments(Category.getCategory(req.getCategory()), req.getWord(), pageable);
 
         return OrnamentListRes.toDto(ornaments);
     }

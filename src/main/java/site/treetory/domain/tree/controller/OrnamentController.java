@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import site.treetory.domain.member.entity.Member;
 import site.treetory.domain.tree.dto.req.AddOrnamentReq;
+import site.treetory.domain.tree.dto.req.OrnamentListReq;
 import site.treetory.domain.tree.dto.res.OrnamentDetailsRes;
 import site.treetory.domain.tree.dto.res.OrnamentListRes;
 import site.treetory.domain.tree.dto.res.OrnamentNameExistsRes;
@@ -20,7 +21,6 @@ import site.treetory.global.dto.ResponseDto;
 import static site.treetory.global.statuscode.SuccessCode.CREATED;
 import static site.treetory.global.statuscode.SuccessCode.OK;
 
-@Slf4j
 @RestController
 @RequestMapping("/api/ornaments")
 @RequiredArgsConstructor
@@ -32,7 +32,7 @@ public class OrnamentController {
     private final String ORNAMENT_SORT_KEY = "createdAt";
 
     @GetMapping
-    public ResponseDto<OrnamentListRes> getOrnaments(@RequestParam(required = false) String category,
+    public ResponseDto<OrnamentListRes> getOrnaments(@ModelAttribute OrnamentListReq ornamentListReq,
                                                      @RequestParam(required = false, defaultValue = "0") int page) {
         
         page = page < 0 ? 0 : page;
@@ -42,7 +42,7 @@ public class OrnamentController {
                 Sort.by(Sort.Direction.DESC, ORNAMENT_SORT_KEY)
         );
 
-        OrnamentListRes result = ornamentService.getOrnaments(category, pageable);
+        OrnamentListRes result = ornamentService.getOrnaments(ornamentListReq, pageable);
 
         return ResponseDto.success(OK, result);
     }
