@@ -2,9 +2,6 @@ package site.treetory.domain.tree.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import site.treetory.domain.member.entity.Member;
@@ -28,21 +25,10 @@ public class OrnamentController {
 
     private final OrnamentService ornamentService;
 
-    private final int ORNAMENT_PAGE_SIZE = 18;
-    private final String ORNAMENT_SORT_KEY = "createdAt";
-
     @GetMapping
-    public ResponseDto<OrnamentListRes> getOrnaments(@ModelAttribute OrnamentListReq ornamentListReq,
-                                                     @RequestParam(required = false, defaultValue = "0") int page) {
-        
-        page = page < 0 ? 0 : page;
+    public ResponseDto<OrnamentListRes> getOrnaments(@ModelAttribute OrnamentListReq ornamentListReq) {
 
-        PageRequest pageable = PageRequest.of(page,
-                ORNAMENT_PAGE_SIZE,
-                Sort.by(Sort.Direction.DESC, ORNAMENT_SORT_KEY)
-        );
-
-        OrnamentListRes result = ornamentService.getOrnaments(ornamentListReq, pageable);
+        OrnamentListRes result = ornamentService.getOrnaments(ornamentListReq);
 
         return ResponseDto.success(OK, result);
     }
