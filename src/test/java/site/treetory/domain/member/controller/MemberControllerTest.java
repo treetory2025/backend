@@ -102,6 +102,8 @@ public class MemberControllerTest {
                                 .summary("본인 정보 조회 API")
                                 .responseFields(
                                         getCommonResponseFields(
+                                                fieldWithPath("body.uuid").type(STRING)
+                                                        .description("UUID"),
                                                 fieldWithPath("body.nickname").type(STRING)
                                                         .description("닉네임"),
                                                 fieldWithPath("body.email").type(STRING)
