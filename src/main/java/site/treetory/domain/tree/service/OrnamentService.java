@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import site.treetory.domain.member.entity.Member;
 import site.treetory.domain.tree.dto.req.AddOrnamentReq;
+import site.treetory.domain.tree.dto.res.OrnamentDetailsRes;
 import site.treetory.domain.tree.dto.res.OrnamentListRes;
 import site.treetory.domain.tree.dto.res.OrnamentNameExistsRes;
 import site.treetory.domain.tree.dto.res.UploadImageRes;
@@ -17,6 +18,7 @@ import site.treetory.global.exception.CustomException;
 import site.treetory.global.util.S3Uploader;
 
 import static site.treetory.global.statuscode.ErrorCode.BAD_REQUEST;
+import static site.treetory.global.statuscode.ErrorCode.NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -37,12 +39,14 @@ public class OrnamentService {
         return OrnamentListRes.toDto(ornaments);
     }
 
-    public void addOrnament(AddOrnamentReq req) {
+    public void addOrnament(Member member, AddOrnamentReq req) {
+
         if (ornamentRepository.existsByName(req.getName())) {
             throw new CustomException(BAD_REQUEST);
         }
-        
+
         Ornament ornament = Ornament.builder()
+                .member(member)
                 .name(req.getName())
                 .category(Category.getCategory(req.getCategory()))
                 .imgUrl(req.getImgUrl())
@@ -53,6 +57,7 @@ public class OrnamentService {
     }
 
     public OrnamentNameExistsRes checkOrnamentNameExists(String name) {
+
         Boolean exists = ornamentRepository.existsByName(name);
 
         return OrnamentNameExistsRes.builder()
@@ -67,5 +72,13 @@ public class OrnamentService {
         String imageUrl = s3Uploader.upload(member.getId(), image, dirName);
 
         return new UploadImageRes(imageUrl);
+    }
+
+    public OrnamentDetailsRes getOrnamentDetails(Long ornamentId) {
+
+        Ornament ornament = ornamentRepository.findById(ornamentId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND));
+
+        return OrnamentDetailsRes.toDto(ornament);
     }
 }
