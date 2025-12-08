@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import site.treetory.domain.member.entity.Member;
 import site.treetory.domain.tree.dto.req.AddOrnamentReq;
@@ -27,6 +28,7 @@ public class OrnamentService {
     private final OrnamentRepository ornamentRepository;
     private final S3Uploader s3Uploader;
 
+    @Transactional(readOnly = true)
     public OrnamentListRes getOrnaments(String category, Pageable pageable) {
 
         Page<Ornament> ornaments;
@@ -39,6 +41,7 @@ public class OrnamentService {
         return OrnamentListRes.toDto(ornaments);
     }
 
+    @Transactional
     public void addOrnament(Member member, AddOrnamentReq req) {
 
         if (ornamentRepository.existsByName(req.getName())) {
@@ -56,6 +59,7 @@ public class OrnamentService {
         ornamentRepository.save(ornament);
     }
 
+    @Transactional(readOnly = true)
     public OrnamentNameExistsRes checkOrnamentNameExists(String name) {
 
         Boolean exists = ornamentRepository.existsByName(name);
