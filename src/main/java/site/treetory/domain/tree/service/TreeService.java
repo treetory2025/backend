@@ -18,7 +18,6 @@ import site.treetory.domain.tree.repository.TreeRepository;
 import site.treetory.global.exception.CustomException;
 
 import java.util.List;
-import java.util.Optional;
 
 import static site.treetory.global.statuscode.ErrorCode.*;
 
@@ -41,6 +40,15 @@ public class TreeService {
         List<PlacedOrnament> placedOrnaments = placedOrnamentRepository.findAllByTreeId(tree.getId());
 
         return TreeDetailsRes.toDto(tree, placedOrnaments);
+    }
+    
+    @Transactional
+    public void resizeTree(Member member) {
+        
+        Tree tree = treeRepository.findByMember(member)
+                .orElseThrow(() -> new CustomException(NOT_FOUND));
+        
+        tree.resize();
     }
 
     @Transactional

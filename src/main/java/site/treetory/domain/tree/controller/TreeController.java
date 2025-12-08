@@ -21,14 +21,24 @@ public class TreeController {
 
     @GetMapping("/{uuid}")
     public ResponseDto<TreeDetailsRes> treeDetails(@PathVariable String uuid) {
+        
         TreeDetailsRes result = treeService.getTreeDetails(uuid);
 
         return ResponseDto.success(OK, result);
     }
 
+    @PatchMapping("/size")
+    public ResponseDto<Void> resizeTree(@LoginMember Member member) {
+        
+        treeService.resizeTree(member);
+        
+        return ResponseDto.success(OK);
+    }
+
     @PostMapping("/{uuid}/ornaments")
     public ResponseDto<Void> placeOrnament(@PathVariable String uuid,
                                            @Valid @RequestBody PlaceOrnamentReq placeOrnamentReq) {
+        
         treeService.placeOrnament(uuid, placeOrnamentReq);
 
         return ResponseDto.success(CREATED);
@@ -37,6 +47,7 @@ public class TreeController {
     @DeleteMapping("/ornaments/{placedOrnamentId}")
     public ResponseDto<Void> deleteOrnament(@LoginMember Member member,
                                             @PathVariable Long placedOrnamentId) {
+        
         treeService.deleteOrnament(member, placedOrnamentId);
 
         return ResponseDto.success(NO_CONTENT);
