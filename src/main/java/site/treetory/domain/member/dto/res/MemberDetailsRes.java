@@ -9,6 +9,8 @@ import site.treetory.domain.tree.entity.Tree;
 @Builder
 public class MemberDetailsRes {
 
+    private String uuid;
+
     private String nickname;
 
     private String email;
@@ -20,6 +22,7 @@ public class MemberDetailsRes {
     public static  MemberDetailsRes toDto(Member member, Tree tree) {
 
         return MemberDetailsRes.builder()
+                .uuid(member.getUuid())
                 .nickname(member.getNickname())
                 .email(member.getEmail())
                 .theme(tree.getTheme().name())
