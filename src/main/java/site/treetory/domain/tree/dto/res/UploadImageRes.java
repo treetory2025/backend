@@ -7,5 +7,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class UploadImageRes {
 
-    private String imageUrl;
+    private String imgUrl;
 }

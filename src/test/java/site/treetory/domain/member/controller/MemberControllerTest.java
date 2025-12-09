@@ -337,6 +337,10 @@ public class MemberControllerTest {
                         resource(ResourceSnippetParameters.builder()
                                 .tag("Member API")
                                 .summary("즐겨찾기 추가 API")
+                                .pathParameters(
+                                        parameterWithName("targetMemberId")
+                                                .description("상대 회원 ID")
+                                )
                                 .responseFields(
                                         getCommonResponseFields(
                                                 fieldWithPath("body").type(NULL)
