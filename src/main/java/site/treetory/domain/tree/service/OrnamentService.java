@@ -31,7 +31,9 @@ public class OrnamentService {
     @Transactional(readOnly = true)
     public OrnamentListRes getOrnaments(OrnamentListReq req) {
 
-        Page<Ornament> ornaments = ornamentRepository.searchOrnaments(Category.getCategory(req.getCategory()), req.getWord(), req.getPageable());
+        Category category = req.getCategory() != null ? Category.getCategory(req.getCategory()) : null;
+
+        Page<Ornament> ornaments = ornamentRepository.searchOrnaments(category, req.getWord(), req.getPageable());
 
         return OrnamentListRes.toDto(ornaments);
     }
