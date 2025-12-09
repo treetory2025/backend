@@ -8,6 +8,7 @@ import site.treetory.domain.member.entity.Member;
 import site.treetory.domain.tree.dto.req.ChangeBackgroundReq;
 import site.treetory.domain.tree.dto.req.ChangeThemeReq;
 import site.treetory.domain.tree.dto.req.PlaceOrnamentReq;
+import site.treetory.domain.tree.dto.res.MessageDetailsRes;
 import site.treetory.domain.tree.dto.res.TreeDetailsRes;
 import site.treetory.domain.tree.entity.Ornament;
 import site.treetory.domain.tree.entity.PlacedOrnament;
@@ -20,6 +21,7 @@ import site.treetory.domain.tree.repository.PlacedOrnamentRepository;
 import site.treetory.domain.tree.repository.TreeRepository;
 import site.treetory.global.exception.CustomException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static site.treetory.global.statuscode.ErrorCode.*;
@@ -42,6 +44,15 @@ public class TreeService {
         List<PlacedOrnament> placedOrnaments = placedOrnamentRepository.findAllByTreeId(tree.getId());
 
         return TreeDetailsRes.toDto(tree, placedOrnaments);
+    }
+
+    @Transactional
+    public void resizeTree(Member member) {
+
+        Tree tree = treeRepository.findByMember(member)
+                .orElseThrow(() -> new CustomException(NOT_FOUND));
+
+        tree.resize();
     }
 
     @Transactional
@@ -75,6 +86,23 @@ public class TreeService {
                             placedOrnamentRepository.delete(placedOrnament);
                         }, () -> log.warn("삭제하려는 장식을 찾을 수 없습니다. ID: {}", placedOrnamentId)
                 );
+    }
+
+    @Transactional(readOnly = true)
+    public MessageDetailsRes messageDetails(Member member, Long placedOrnamentId) {
+
+        if (LocalDateTime.now().isBefore(LocalDateTime.parse("2025-12-25T00:00:00"))) {
+            throw new CustomException(FORBIDDEN);
+        }
+
+        PlacedOrnament placedOrnament = placedOrnamentRepository.findById(placedOrnamentId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND));
+
+        if (!placedOrnament.getTree().getId().equals(member.getId())) {
+            throw new CustomException(FORBIDDEN);
+        }
+
+        return MessageDetailsRes.toDto(placedOrnament);
     }
 
     private void validateOwner(Member member, PlacedOrnament placedOrnament) {

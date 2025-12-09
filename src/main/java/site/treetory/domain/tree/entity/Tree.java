@@ -40,6 +40,10 @@ public class Tree {
     @NotNull
     @Enumerated(STRING)
     private Background background;
+    
+    public void resize() {
+        this.size++;
+    }
 
     public static Tree createBasicTree(Member member) {
 

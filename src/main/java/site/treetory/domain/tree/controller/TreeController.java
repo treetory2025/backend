@@ -7,6 +7,7 @@ import site.treetory.domain.member.entity.Member;
 import site.treetory.domain.tree.dto.req.ChangeBackgroundReq;
 import site.treetory.domain.tree.dto.req.ChangeThemeReq;
 import site.treetory.domain.tree.dto.req.PlaceOrnamentReq;
+import site.treetory.domain.tree.dto.res.MessageDetailsRes;
 import site.treetory.domain.tree.dto.res.TreeDetailsRes;
 import site.treetory.domain.tree.service.TreeService;
 import site.treetory.global.argument_resolver.LoginMember;
@@ -23,14 +24,24 @@ public class TreeController {
 
     @GetMapping("/{uuid}")
     public ResponseDto<TreeDetailsRes> treeDetails(@PathVariable String uuid) {
+
         TreeDetailsRes result = treeService.getTreeDetails(uuid);
 
         return ResponseDto.success(OK, result);
     }
 
+    @PatchMapping("/size")
+    public ResponseDto<Void> resizeTree(@LoginMember Member member) {
+
+        treeService.resizeTree(member);
+
+        return ResponseDto.success(OK);
+    }
+
     @PostMapping("/{uuid}/ornaments")
     public ResponseDto<Void> placeOrnament(@PathVariable String uuid,
                                            @Valid @RequestBody PlaceOrnamentReq placeOrnamentReq) {
+
         treeService.placeOrnament(uuid, placeOrnamentReq);
 
         return ResponseDto.success(CREATED);
@@ -39,6 +50,7 @@ public class TreeController {
     @DeleteMapping("/ornaments/{placedOrnamentId}")
     public ResponseDto<Void> deleteOrnament(@LoginMember Member member,
                                             @PathVariable Long placedOrnamentId) {
+
         treeService.deleteOrnament(member, placedOrnamentId);
 
         return ResponseDto.success(NO_CONTENT);
@@ -60,5 +72,14 @@ public class TreeController {
         treeService.changeBackground(member, changeBackgroundReq);
 
         return ResponseDto.success(OK);
+    }
+
+    @GetMapping("/messages/{placedOrnamentId}")
+    public ResponseDto<MessageDetailsRes> messageDetails(@LoginMember Member member,
+                                                         @PathVariable Long placedOrnamentId) {
+
+        MessageDetailsRes result = treeService.messageDetails(member, placedOrnamentId);
+
+        return ResponseDto.success(OK, result);
     }
 }
