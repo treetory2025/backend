@@ -439,7 +439,7 @@ public class TreeControllerTest {
 
     @Test
     @DisplayName("오너먼트 배치 실패 - 메세지 300자 초과")
-    public void place_ornament_message_too_long() throws Exception {
+    public void place_ornament_fail_message_too_long() throws Exception {
 
         // given
         String uuid = "b8a3eb59-b956-4df9-8a55-80784016b8d4";
@@ -465,6 +465,51 @@ public class TreeControllerTest {
                 .andExpect(status().isBadRequest())
                 .andDo(document(
                         "오너먼트 배치 실패 - 메세지 300자 초과",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("Tree API")
+                                .summary("오너먼트 배치 API")
+                                .responseFields(
+                                        getCommonResponseFields(
+                                                fieldWithPath("body").type(NULL)
+                                                        .description("내용 없음")
+                                        )
+                                )
+                                .requestSchema(Schema.schema("오너먼트 배치 Request"))
+                                .build()
+                        ))
+                );
+    }
+
+    @Test
+    @DisplayName("오너먼트 배치 실패 - 닉네임 유효성 검사 실패")
+    public void place_ornament_fail_nickname_not_valid() throws Exception {
+
+        // given
+        String uuid = "b8a3eb59-b956-4df9-8a55-80784016b8d4";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("ornamentId", "1");
+        jsonObject.put("nickname", "テスト訪問者");
+        jsonObject.put("message", "너를처음본순간부터좋아했어방학전에고백하고싶었는데바보같이그땐용기가없더라지금은이수많은사람들앞에서오로지너만사랑한다고말하고싶어서큰마음먹고용기내어봐매일매일버스에서너볼때마다두근댔고동아리랑과활동에서도너만보이고너생각만나고지난3월부터계속그랬어니가남자친구랑헤어지고니맘이아파울때내마음도너무아팠지만내심좋은맘두있었어이런내맘을어떻게말할지고민하다가정말인생에서제일크게용기내어세상에서제일멋지게많은사람들앞에서너한테고백해주고싶었어나만의태양이되어줄래?난너의달님이될게내일3시반에너수업마치고학관앞에서기다리고있을게");
+        jsonObject.put("positionX", "10");
+        jsonObject.put("positionY", "10");
+        jsonObject.put("font", "NANUM_PEN");
+
+        // when
+        ResultActions actions = mockMvc.perform(
+                post("/api/trees/{uuid}/ornaments", uuid)
+                        .accept(APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
+                        .content(jsonObject.toString())
+                        .characterEncoding("UTF-8")
+        );
+
+        // then
+        actions
+                .andExpect(status().isBadRequest())
+                .andDo(document(
+                        "오너먼트 배치 실패 - 닉네임 유효성 검사 실패",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()
