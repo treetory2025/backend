@@ -28,6 +28,17 @@ spring:
     init:
       mode: always
       data-locations: classpath:sql/data.sql
+      
+  cloud:
+    aws:
+      credentials:
+        access-key: ${S3_ACCESS_KEY}
+        secret-key: ${S3_SECRET_KEY}
+      region:
+        static: ap-northeast-2
+      s3:
+        bucket: ${S3_BUCKET}
+        url: ${BUCKET_URL}
 
 jwt:
   access:
@@ -36,15 +47,3 @@ jwt:
   refresh:
     secret: testkeytestkeytestkeytestkeytestkeytestkeytestkeytestkey
     expiration: 60000
-
-
-cloud:
-  aws:
-    credentials:
-      access-key: testkeytestkeytestkeytestkeytestkeytestkeytestkeytestkey
-      secret-key: testkeytestkeytestkeytestkeytestkeytestkeytestkeytestkey
-    region:
-      static: ap-northeast-2
-    s3:
-      bucket: test_bucket
-      url: test_url
