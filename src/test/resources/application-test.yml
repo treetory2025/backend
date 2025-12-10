@@ -47,3 +47,6 @@ jwt:
   refresh:
     secret: testkeytestkeytestkeytestkeytestkeytestkeytestkeytestkey
     expiration: 60000
+
+cors:
+  allowed-origins: 

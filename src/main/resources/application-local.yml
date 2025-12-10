@@ -17,3 +17,7 @@ spring:
     init:
       mode: always
       data-locations: classpath:sql/data.sql
+
+    
+cors:
+  allowed-origins: "http://localhost:3000"
