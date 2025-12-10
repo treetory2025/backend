@@ -65,7 +65,7 @@ public class TreeControllerTest {
     @Autowired
     private CookieUtils cookieUtils;
 
-    private Cookie accessCookie;
+    private Cookie accessCookie, accessCookie2;
 
     @PostConstruct
     public void init() {
@@ -76,6 +76,14 @@ public class TreeControllerTest {
         String accessToken = jwtUtils.createAccessToken(uuid, jti);
 
         accessCookie = cookieUtils.createCookie(ACCESS, accessToken, "/", jwtProperties.getAccessExpiration());
+
+        String uuid2 = "7dc08288-d5fb-490d-8ece-9e55e3b7dda4";
+        String jti2 = "966921cf-655b-4840-a068-4ba9d9bc8e4a";
+
+        String accessToken2 = jwtUtils.createAccessToken(uuid2, jti2);
+
+        accessCookie2 = cookieUtils.createCookie(ACCESS, accessToken2, "/", jwtProperties.getAccessExpiration());
+
     }
 
     @Test
@@ -235,7 +243,45 @@ public class TreeControllerTest {
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.header.message").value(UNAUTHORIZED.getMessage()))
                 .andDo(document(
-                        "트리 사이즈 증가 실패",
+                        "트리 사이즈 증가 실패 - 권한 없음",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("Tree API")
+                                .summary("트리 사이즈 증가 API")
+                                .responseFields(
+                                        getCommonResponseFields(
+                                                fieldWithPath("body").type(NULL)
+                                                        .description("내용 없음")
+                                        )
+                                )
+                                .requestSchema(Schema.schema("트리 사이즈 증가 Request"))
+                                .build()
+                        ))
+                );
+    }
+
+    @Test
+    @DisplayName("트리 사이즈 증가 실패 - 최대 크기 도달")
+    public void resize_tree_fail_max_size() throws Exception {
+
+        // given
+
+        // when
+        ResultActions actions = mockMvc.perform(
+                patch("/api/trees/size")
+                        .cookie(accessCookie2)
+                        .accept(APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
+        );
+
+        // then
+        actions
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.header.message").value(BAD_REQUEST.getMessage()))
+                .andDo(document(
+                        "트리 사이즈 증가 실패 - 최대 크기 도달",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()

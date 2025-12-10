@@ -9,10 +9,12 @@ import lombok.NoArgsConstructor;
 import site.treetory.domain.member.entity.Member;
 import site.treetory.domain.tree.enums.Background;
 import site.treetory.domain.tree.enums.Theme;
+import site.treetory.global.exception.CustomException;
 
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
 import static site.treetory.domain.tree.enums.Theme.SNOWY;
+import static site.treetory.global.statuscode.ErrorCode.*;
 
 @Entity
 @Getter
@@ -42,6 +44,10 @@ public class Tree {
     private Background background;
     
     public void resize() {
+        if (this.size >= 10) {
+            throw new CustomException(BAD_REQUEST);
+        }
+
         this.size++;
     }
 
@@ -49,7 +55,7 @@ public class Tree {
 
         return Tree.builder()
                 .member(member)
-                .size(1)
+                .size(3)
                 .theme(SNOWY)
                 .background(Background.SILENT_NIGHT)
                 .build();
