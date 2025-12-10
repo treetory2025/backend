@@ -12,14 +12,26 @@ public enum Size {
     ;
 
     private final Integer radius;
-    
+
     public static String getSize(Integer messageLength) {
-        // TODO: 메시지 길이에 따른 사이즈 string 반환
-        return "SMALL";
+
+        if (messageLength < 100) {
+            return "SMALL";
+        } else if (messageLength < 200) {
+            return "MEDIUM";
+        } else {
+            return "LARGE";
+        }
     }
 
-    public static Integer getRadius(Integer messageLength) {
-        // TODO: 메시지 길이에 따른 반지름 반환
-        return 1;
+    public static int getRadius(Integer messageLength) {
+
+        if (messageLength < 100) {
+            return 22;
+        } else if (messageLength < 200) {
+            return 30;
+        } else {
+            return 38;
+        }
     }
 }
