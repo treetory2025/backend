@@ -34,8 +34,8 @@ spring:
       region:
         static: ap-northeast-2 
       s3:
-        bucket: ${S3_BUCKET}
-        url: ${BUCKET_URL}
+        bucket: treetory
+        url: https://treetory.s3.ap-northeast-2.amazonaws.com/
 
   security:
     oauth2:

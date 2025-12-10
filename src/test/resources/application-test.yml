@@ -37,8 +37,8 @@ spring:
       region:
         static: ap-northeast-2
       s3:
-        bucket: test_bucket
-        url: test_url
+        bucket: treetory
+        url: https://treetory.s3.ap-northeast-2.amazonaws.com/
 
 jwt:
   access:
