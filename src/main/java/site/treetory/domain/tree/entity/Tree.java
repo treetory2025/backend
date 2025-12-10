@@ -44,9 +44,11 @@ public class Tree {
     private Background background;
     
     public void resize() {
-        if (++this.size > 10) {
+        if (this.size > 10) {
             throw new CustomException(BAD_REQUEST);
         }
+
+        this.size++;
     }
 
     public static Tree createBasicTree(Member member) {
