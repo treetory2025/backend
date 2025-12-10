@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 
 @Getter
 public enum Theme {
+    NORMAL,
     SNOWY,
     ;
 

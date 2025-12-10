@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 @Getter
 public enum Background {
     SILENT_NIGHT,
+    SNOWY_HILL,
     ;
 
     private static final Map<String, Background> BACKGROUND_MAP = Stream.of(values()).collect(
