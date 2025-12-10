@@ -1,7 +1,7 @@
 package site.treetory.domain.member.dto.req;
 
 import lombok.Data;
-import site.treetory.global.nickname.NicknameValid;
+import site.treetory.global.validator.NicknameValid;
 
 @Data
 public class ChangeNicknameReq {

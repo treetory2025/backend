@@ -6,7 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import site.treetory.global.nickname.NicknameValid;
+import org.hibernate.validator.constraints.Length;
+import site.treetory.global.validator.NicknameValid;
 
 @Getter
 @Builder
@@ -21,6 +22,7 @@ public class PlaceOrnamentReq {
     private String nickname;
 
     @NotBlank
+    @Length(max = 300)
     private String message;
     
     @NotNull

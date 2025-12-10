@@ -56,7 +56,7 @@ public class TreeController {
         return ResponseDto.success(NO_CONTENT);
     }
 
-    @PatchMapping("/theme")
+    @PatchMapping("/themes")
     public ResponseDto<Void> changeTheme(@LoginMember Member member,
                                          @RequestBody ChangeThemeReq changeThemeReq) {
 
@@ -65,7 +65,7 @@ public class TreeController {
         return ResponseDto.success(OK);
     }
 
-    @PatchMapping("/background")
+    @PatchMapping("/backgrounds")
     public ResponseDto<Void> changeBackground(@LoginMember Member member,
                                               @RequestBody ChangeBackgroundReq changeBackgroundReq) {
 

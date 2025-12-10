@@ -1,4 +1,4 @@
-package site.treetory.global.nickname;
+package site.treetory.global.validator;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

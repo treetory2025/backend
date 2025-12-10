@@ -1,4 +1,4 @@
-package site.treetory.global.nickname;
+package site.treetory.global.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class NicknameValidator implements ConstraintValidator<NicknameValid, String> {
 
-    private static final String REGEX = "^[a-zA-Z가-힣ㄱ-ㅎㅏ-ㅣ0-9\\u3040-\\u309F\\u30A0-\\u30FF !@#$%&*()^._-]+$";
+    private static final String REGEX = "^[a-zA-Z가-힣ㄱ-ㅎㅏ-ㅣ0-9_]+$";
     private static final Pattern PATTERN = Pattern.compile(REGEX);
 
     @Override

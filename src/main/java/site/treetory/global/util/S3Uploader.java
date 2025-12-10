@@ -1,8 +1,8 @@
 package site.treetory.global.util;
 
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import io.github.bucket4j.Bucket;
 import io.github.bucket4j.BucketConfiguration;
 import io.github.bucket4j.distributed.proxy.ProxyManager;
@@ -32,13 +32,13 @@ public class S3Uploader {
 
     private static final List<String> SUPPORTED_EXTENSIONS = Arrays.asList("jpg", "jpeg", "png", "webp");
 
-    private final AmazonS3Client amazonS3Client;
+    private final S3Client amazonS3Client;
     private final ProxyManager<String> proxyManager;
 
-    @Value("${cloud.aws.s3.bucket}")
+    @Value("${spring.cloud.aws.s3.bucket}")
     private String s3bucket;
 
-    @Value("${cloud.aws.s3.url}")
+    @Value("${spring.cloud.aws.s3.url}")
     private String bucketUrl;
 
     public String upload(Long memberId, MultipartFile multipartFile, String dirName) {
@@ -92,12 +92,17 @@ public class S3Uploader {
 
     private String uploadFile(MultipartFile multipartFile, String s3FileName, String contentType) {
 
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentType(contentType);
-        objectMetadata.setContentLength(multipartFile.getSize());
-
         try (InputStream inputStream = multipartFile.getInputStream()) {
-            amazonS3Client.putObject(new PutObjectRequest(s3bucket, s3FileName, inputStream, objectMetadata));
+
+            PutObjectRequest putObjectRequest = PutObjectRequest.builder()
+                    .bucket(s3bucket)
+                    .key(s3FileName)
+                    .contentType(contentType)
+                    .contentLength(multipartFile.getSize())
+                    .build();
+
+            RequestBody requestBody = RequestBody.fromInputStream(inputStream, multipartFile.getSize());
+            amazonS3Client.putObject(putObjectRequest, requestBody);
         } catch (Exception e) {
             log.error("S3 Upload Fail: {}", e.getMessage());
             throw new CustomException(IMAGE_UPLOAD_FAIL);

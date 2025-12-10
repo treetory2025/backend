@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import site.treetory.global.validator.ImgUrlValid;
 
 @Getter
 @Builder
@@ -21,7 +22,7 @@ public class AddOrnamentReq {
     @NotNull
     private String category;
 
-    @NotNull
+    @ImgUrlValid
     @Length(max = 255)
     private String imgUrl;
 
