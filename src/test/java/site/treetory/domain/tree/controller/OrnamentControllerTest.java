@@ -276,6 +276,49 @@ public class OrnamentControllerTest {
     }
 
     @Test
+    @DisplayName("오너먼트 추가 실패 - 잘못된 URL 형식")
+    public void add_ornament_fail_wrong_url() throws Exception {
+
+        // given
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name", "장식");
+        jsonObject.put("category", "ETC");
+        jsonObject.put("imgUrl", "https://ohmygod.it.is-wrongurl-2.hehe.com/members/b8a3eb59-b956-4df9-8a55-80784016b8d4/ornaments/7ae61503-5ad0-4a82-ba37-fb04ad8b4ed6%3Aupload_2025-12-05-17.05.48.png");
+        jsonObject.put("isPublic", "true");
+
+        // when
+        ResultActions actions = mockMvc.perform(
+                post("/api/ornaments")
+                        .cookie(accessCookie)
+                        .accept(APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
+                        .content(jsonObject.toString())
+                        .characterEncoding("UTF-8")
+        );
+
+        // then
+        actions
+                .andExpect(status().isBadRequest())
+                .andDo(document(
+                        "오너먼트 추가 실패 - 잘못된 URL 형식",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("Ornament API")
+                                .summary("오너먼트 추가 API")
+                                .responseFields(
+                                        getCommonResponseFields(
+                                                fieldWithPath("body").type(NULL)
+                                                        .description("내용 없음")
+                                        )
+                                )
+                                .build()
+                        ))
+                );
+    }
+
+
+    @Test
     @DisplayName("오너먼트 추가 실패 - 잘못된 카테고리")
     public void add_ornament_fail_wrong_category() throws Exception {
 
