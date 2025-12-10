@@ -15,6 +15,7 @@ import site.treetory.domain.tree.entity.PlacedOrnament;
 import site.treetory.domain.tree.entity.Tree;
 import site.treetory.domain.tree.enums.Background;
 import site.treetory.domain.tree.enums.Font;
+import site.treetory.domain.tree.enums.Size;
 import site.treetory.domain.tree.enums.Theme;
 import site.treetory.domain.tree.repository.OrnamentRepository;
 import site.treetory.domain.tree.repository.PlacedOrnamentRepository;
@@ -64,6 +65,8 @@ public class TreeService {
         Ornament ornament = ornamentRepository.findById(req.getOrnamentId())
                 .orElseThrow(() -> new CustomException(NOT_FOUND));
 
+        List<PlacedOrnament> placedOrnaments = placedOrnamentRepository.findAllByTreeId(tree.getId());
+
         PlacedOrnament placedOrnament = PlacedOrnament.builder()
                 .tree(tree)
                 .ornament(ornament)
@@ -74,7 +77,35 @@ public class TreeService {
                 .font(Font.getFont(req.getFont()))
                 .build();
 
+        if (checkIntersection(placedOrnament, placedOrnaments)) {
+            throw new CustomException(BAD_REQUEST);
+        }
+
         placedOrnamentRepository.save(placedOrnament);
+    }
+
+    private boolean checkIntersection(PlacedOrnament placedOrnament, List<PlacedOrnament> placedOrnaments) {
+
+        for (PlacedOrnament ornament : placedOrnaments) {
+            if (checkIntersection(ornament, placedOrnament)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean checkIntersection(PlacedOrnament o1, PlacedOrnament o2) {
+
+        int dx = o1.getPositionX() - o2.getPositionX();
+        int dy = o1.getPositionY() - o2.getPositionY();
+
+        int r1 = Size.getRadius(o1.getMessage().length());
+        int r2 = Size.getRadius(o2.getMessage().length());
+        int radSum = r1 + r2;
+
+        return dx * dx + dy * dy < radSum * radSum;
+
     }
 
     @Transactional
