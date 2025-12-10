@@ -13,6 +13,10 @@ import java.util.stream.Stream;
 @Getter
 public enum Font {
     NANUM_PEN,
+    GANGWON_EDUCATION_SAEUM,
+    ONGLEIP_WISH_LIST,
+    ONGLEIP_TTEROM,
+    KOTRA_HOPE,
     ;
 
     private static final Map<String, Font> FONT_MAP = Stream.of(values()).collect(
