@@ -13,6 +13,10 @@ spring:
         show_sql: true
     defer-datasource-initialization: true
 
+  
+logging:
+  level:
+    root: warn
 
 cors:
   allowed-origins:
