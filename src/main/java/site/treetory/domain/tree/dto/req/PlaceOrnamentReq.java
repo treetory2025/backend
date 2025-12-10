@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
-import site.treetory.global.nickname.NicknameValid;
+import site.treetory.global.validator.NicknameValid;
 
 @Getter
 @Builder
