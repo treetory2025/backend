@@ -23,4 +23,4 @@ logging:
     root: info
     
 cors:
-  allowed-origins: "http://localhost:3000", "https://develop.bacinf.com"
+  allowed-origins: "http://localhost:3000, https://develop.bacinf.com"
