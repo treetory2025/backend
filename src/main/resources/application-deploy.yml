@@ -13,4 +13,4 @@ logging:
     root: warn
 
 cors:
-  allowed-origins:
+  allowed-origins: "https://develop.bacinf.com"
