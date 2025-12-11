@@ -13,4 +13,4 @@ logging:
     root: warn
 
 cors:
-  allowed-origins: "https://develop.bacinf.com"
+  allowed-origins: "https://develop.bacinf.com", "https://treetory.co.kr"
