@@ -12,6 +12,8 @@ import java.util.List;
 @Builder
 public class TreeDetailsOrnamentsRes {
 
+    private Long placedOrnamentId;
+
     private Long ornamentId;
 
     private String writerNickname;
@@ -28,7 +30,8 @@ public class TreeDetailsOrnamentsRes {
 
     public static TreeDetailsOrnamentsRes toDto(PlacedOrnament placedOrnament) {
         return TreeDetailsOrnamentsRes.builder()
-                .ornamentId(placedOrnament.getId())
+                .placedOrnamentId(placedOrnament.getId())
+                .ornamentId(placedOrnament.getOrnament().getId())
                 .writerNickname(placedOrnament.getWriterNickname())
                 .positionX(placedOrnament.getPositionX())
                 .positionY(placedOrnament.getPositionY())

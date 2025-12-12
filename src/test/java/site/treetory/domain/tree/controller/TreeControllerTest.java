@@ -126,6 +126,8 @@ public class TreeControllerTest {
                                                         .description("트리 배경"),
                                                 fieldWithPath("body.ornamentsRes").type(ARRAY)
                                                         .description("배치된 오너먼트 리스트"),
+                                                fieldWithPath("body.ornamentsRes[].placedOrnamentId").type(NUMBER)
+                                                        .description("배치된 오너먼트 ID"),
                                                 fieldWithPath("body.ornamentsRes[].ornamentId").type(NUMBER)
                                                         .description("오너먼트 ID"),
                                                 fieldWithPath("body.ornamentsRes[].writerNickname").type(STRING)
