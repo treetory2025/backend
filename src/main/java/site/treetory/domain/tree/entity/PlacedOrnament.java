@@ -24,7 +24,7 @@ import static site.treetory.global.statuscode.ErrorCode.FORBIDDEN;
 @AllArgsConstructor
 @SQLRestriction("is_deleted = false")
 @EntityListeners(AuditingEntityListener.class)
-@SQLDelete(sql = " UPDATE PlacedOrnament SET is_deleted = true WHERE placed_ornament_id = ? ")
+@SQLDelete(sql = "UPDATE placed_ornament SET is_deleted = true WHERE placed_ornament_id = ? ")
 public class PlacedOrnament extends BaseEntity {
 
     @Id

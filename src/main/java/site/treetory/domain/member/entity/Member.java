@@ -17,7 +17,7 @@ import site.treetory.global.entity.BaseEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@SQLDelete(sql = " UPDATE Member SET is_deleted = true WHERE member_id = ? ")
+@SQLDelete(sql = " UPDATE member SET is_deleted = true WHERE member_id = ? ")
 @SQLRestriction("is_deleted = false")
 @EntityListeners(AuditingEntityListener.class)
 public class Member extends BaseEntity {
