@@ -20,7 +20,7 @@ import site.treetory.global.entity.BaseEntity;
 @AllArgsConstructor
 @SQLRestriction("is_deleted = false")
 @EntityListeners(AuditingEntityListener.class)
-@SQLDelete(sql = " UPDATE Ornament SET is_deleted = true WHERE ornament_id = ? ")
+@SQLDelete(sql = " UPDATE ornament SET is_deleted = true WHERE ornament_id = ? ")
 public class Ornament extends BaseEntity {
 
     @Id
