@@ -18,11 +18,16 @@ jobs:
     runs-on: ubuntu-22.04
     environment:
       name: ${{ github.ref_name == 'main' && 'prod' || 'dev' }}
-      url: ${{ secrets.SERVER_URL }}
+      url: ${{ steps.set-server-url.outputs.server_url }}
       
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        
+      - name: Set Server Url
+        id: set-server-url
+        run: |
+          echo "server_url=${{ vars.SERVER_URL }}" >> $GITHUB_OUTPUT
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
@@ -35,7 +40,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Gradle Build
-        run: ./gradlew clean build -PserverUrl=${{ secrets.SERVER_URL }}
+        run: ./gradlew clean build -PserverUrl=${{ vars.SERVER_URL }}
       
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
