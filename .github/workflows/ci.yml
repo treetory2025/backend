@@ -36,4 +36,4 @@ jobs:
         run: chmod +x gradlew
       
       - name: Gradle Build
-        run: ./gradlew clean build -PserverUrl=${{ secrets.SERVER_URL }}
+        run: ./gradlew build -PserverUrl=${{ secrets.SERVER_URL }}
