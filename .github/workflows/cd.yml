@@ -16,6 +16,7 @@ concurrency:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-22.04
+    timeout-minutes: 10
     environment:
       name: ${{ github.ref_name == 'main' && 'prod' || 'dev' }}
       url: ${{ steps.set-server-url.outputs.server_url }}
