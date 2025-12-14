@@ -18,22 +18,21 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Optional<Member> findByEmail(String email);
 
-    @Query("select new site.treetory.domain.member.dto.MemberWithOrnamentsCount(" +
-            "   m.uuid, m.nickname, m.email, count(p)) " +
-            "from Member m " +
-            "left join PlacedOrnament p " +
-            "on m.id = p.tree.id " +
-            "where m.nickname like :query or m.email like :query " +
-            "group by m.id " +
-            "order by count(p) desc")
+    @Query("SELECT NEW site.treetory.domain.member.dto.MemberWithOrnamentsCount(" +
+            "   m.uuid, m.nickname, m.email, COUNT(p)) " +
+            "FROM Member m " +
+            "LEFT JOIN PlacedOrnament p " +
+            "ON m.id = p.tree.id " +
+            "WHERE m.nickname LIKE :query OR m.email LIKE :query " +
+            "GROUP BY m.id " +
+            "ORDER BY COUNT(p) DESC")
     Page<MemberWithOrnamentsCount> findMembersByQuery(@Param("query") String query, Pageable pageable);
 
-    @Query("select m " +
-            "from Member m " +
-            "join Bookmark b " +
-            "on b.targetMember = m " +
-            "where b.member.id = :memberId " +
-            "and (m.nickname like :query or m.email like :query) " +
-            "order by b.createdAt")
-    Page<Member> bookmarkList(@Param("memberId") Long memberId, @Param("query")  String query, Pageable pageable);
-}
+    @Query("SELECT m " +
+            "FROM Member m " +
+            "JOIN Bookmark b " +
+            "ON b.targetMember = m " +
+            "WHERE b.member.id = :memberId " +
+            "AND (m.nickname LIKE :query OR m.email LIKE :query) " +
+            "ORDER BY b.createdAt")
+    Page<Member> bookmarkList(@Param("memberId") Long memberId, @Param("query")  String query, Pageable pageable);}

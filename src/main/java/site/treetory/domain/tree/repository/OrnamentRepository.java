@@ -12,8 +12,12 @@ import site.treetory.domain.tree.enums.Category;
 public interface OrnamentRepository extends JpaRepository<Ornament, Long> {
 
     @Query("SELECT o FROM Ornament o " +
+            "LEFT JOIN PlacedOrnament p " +
+            "ON p.ornament = o " +
             "WHERE (:category IS NULL OR o.category = :category) " +
-            "AND (:word IS NULL OR o.name LIKE %:word%)")
+            "AND (:word IS NULL OR o.name LIKE %:word%) " +
+            "GROUP BY o " +
+            "ORDER BY COUNT(p) DESC ")
     Page<Ornament> searchOrnaments(Category category, String word, Pageable pageable);
 
     Boolean existsByName(String name);
