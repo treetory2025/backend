@@ -19,8 +19,7 @@ import site.treetory.global.exception.CustomException;
 import site.treetory.global.util.S3Uploader;
 
 import static site.treetory.domain.tree.enums.Category.PRIVATE;
-import static site.treetory.global.statuscode.ErrorCode.BAD_REQUEST;
-import static site.treetory.global.statuscode.ErrorCode.NOT_FOUND;
+import static site.treetory.global.statuscode.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -94,7 +93,7 @@ public class OrnamentService {
                 .orElseThrow(() -> new CustomException(NOT_FOUND));
 
         if (ornament.getCategory() == PRIVATE) {
-            throw new CustomException(BAD_REQUEST);
+            throw new CustomException(FORBIDDEN);
         }
 
         return OrnamentDetailsRes.toDto(ornament);
