@@ -93,6 +93,10 @@ public class OrnamentService {
         Ornament ornament = ornamentRepository.findById(ornamentId)
                 .orElseThrow(() -> new CustomException(NOT_FOUND));
 
+        if (ornament.getCategory() == PRIVATE) {
+            throw new CustomException(BAD_REQUEST);
+        }
+
         return OrnamentDetailsRes.toDto(ornament);
     }
 }
