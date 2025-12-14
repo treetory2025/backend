@@ -13,6 +13,8 @@ public class TreeDetailsRes {
 
     private String nickname;
 
+    private Boolean isBookmarked;
+
     private Integer treeSize;
 
     private String treeTheme;
@@ -21,9 +23,10 @@ public class TreeDetailsRes {
 
     private List<TreeDetailsOrnamentsRes> ornamentsRes;
 
-    public static TreeDetailsRes toDto(Tree tree, List<PlacedOrnament> placedOrnaments) {
+    public static TreeDetailsRes toDto(Tree tree, List<PlacedOrnament> placedOrnaments, Boolean isBookmarked) {
         return TreeDetailsRes.builder()
                 .nickname(tree.getMember().getNickname())
+                .isBookmarked(isBookmarked)
                 .treeSize(tree.getSize())
                 .treeTheme(tree.getTheme().name())
                 .treeBackground(tree.getBackground().name())
