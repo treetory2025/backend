@@ -46,10 +46,7 @@ public class TreeService {
 
         List<PlacedOrnament> placedOrnaments = placedOrnamentRepository.findAllByTreeId(tree.getId());
 
-        Boolean isBookmarked = false;
-        if (member != null) {
-            isBookmarked = bookmarkRepository.existsByMemberAndTargetMember(member, tree.getMember());
-        }
+        Boolean isBookmarked = bookmarkRepository.existsByMemberAndTargetMember(member, tree.getMember());
 
         return TreeDetailsRes.toDto(tree, placedOrnaments, isBookmarked);
     }
