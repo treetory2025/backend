@@ -198,7 +198,6 @@ public class OrnamentControllerTest {
         jsonObject.put("name", "장식");
         jsonObject.put("category", "ETC");
         jsonObject.put("imgUrl", "https://treetory.s3.ap-northeast-2.amazonaws.com/members/b8a3eb59-b956-4df9-8a55-80784016b8d4/ornaments/7ae61503-5ad0-4a82-ba37-fb04ad8b4ed6%3Aupload_2025-12-05-17.05.48.png");
-        jsonObject.put("isPublic", "true");
 
         // when
         ResultActions actions = mockMvc.perform(
@@ -221,6 +220,14 @@ public class OrnamentControllerTest {
                         resource(ResourceSnippetParameters.builder()
                                 .tag("Ornament API")
                                 .summary("오너먼트 추가 API")
+                                .requestFields(
+                                        fieldWithPath("name").type(STRING)
+                                                .description("오너먼트 이름").optional(),
+                                        fieldWithPath("category").type(STRING)
+                                                .description("카테고리"),
+                                        fieldWithPath("imgUrl").type(STRING)
+                                                .description("이미지 url")
+                                )
                                 .responseFields(
                                         getCommonResponseFields(
                                                 fieldWithPath("body").type(NULL)
@@ -242,7 +249,6 @@ public class OrnamentControllerTest {
         jsonObject.put("name", "장식이름이너무너무너무길어요");
         jsonObject.put("category", "ETC");
         jsonObject.put("imgUrl", "https://treetory.s3.ap-northeast-2.amazonaws.com/members/b8a3eb59-b956-4df9-8a55-80784016b8d4/ornaments/7ae61503-5ad0-4a82-ba37-fb04ad8b4ed6%3Aupload_2025-12-05-17.05.48.png");
-        jsonObject.put("isPublic", "true");
 
         // when
         ResultActions actions = mockMvc.perform(
@@ -264,6 +270,14 @@ public class OrnamentControllerTest {
                         resource(ResourceSnippetParameters.builder()
                                 .tag("Ornament API")
                                 .summary("오너먼트 추가 API")
+                                .requestFields(
+                                        fieldWithPath("name").type(STRING)
+                                                .description("오너먼트 이름").optional(),
+                                        fieldWithPath("category").type(STRING)
+                                                .description("카테고리"),
+                                        fieldWithPath("imgUrl").type(STRING)
+                                                .description("이미지 url")
+                                )
                                 .responseFields(
                                         getCommonResponseFields(
                                                 fieldWithPath("body").type(NULL)
@@ -284,7 +298,6 @@ public class OrnamentControllerTest {
         jsonObject.put("name", "장식");
         jsonObject.put("category", "ETC");
         jsonObject.put("imgUrl", "https://ohmygod.it.is-wrongurl-2.hehe.com/members/b8a3eb59-b956-4df9-8a55-80784016b8d4/ornaments/7ae61503-5ad0-4a82-ba37-fb04ad8b4ed6%3Aupload_2025-12-05-17.05.48.png");
-        jsonObject.put("isPublic", "true");
 
         // when
         ResultActions actions = mockMvc.perform(
@@ -306,6 +319,14 @@ public class OrnamentControllerTest {
                         resource(ResourceSnippetParameters.builder()
                                 .tag("Ornament API")
                                 .summary("오너먼트 추가 API")
+                                .requestFields(
+                                        fieldWithPath("name").type(STRING)
+                                                .description("오너먼트 이름").optional(),
+                                        fieldWithPath("category").type(STRING)
+                                                .description("카테고리"),
+                                        fieldWithPath("imgUrl").type(STRING)
+                                                .description("이미지 url")
+                                )
                                 .responseFields(
                                         getCommonResponseFields(
                                                 fieldWithPath("body").type(NULL)
@@ -327,7 +348,6 @@ public class OrnamentControllerTest {
         jsonObject.put("name", "장식");
         jsonObject.put("category", "ANIMATION");
         jsonObject.put("imgUrl", "https://treetory.s3.ap-northeast-2.amazonaws.com/members/b8a3eb59-b956-4df9-8a55-80784016b8d4/ornaments/7ae61503-5ad0-4a82-ba37-fb04ad8b4ed6%3Aupload_2025-12-05-17.05.48.png");
-        jsonObject.put("isPublic", "true");
 
         // when
         ResultActions actions = mockMvc.perform(
@@ -349,6 +369,14 @@ public class OrnamentControllerTest {
                         resource(ResourceSnippetParameters.builder()
                                 .tag("Ornament API")
                                 .summary("오너먼트 추가 API")
+                                .requestFields(
+                                        fieldWithPath("name").type(STRING)
+                                                .description("오너먼트 이름").optional(),
+                                        fieldWithPath("category").type(STRING)
+                                                .description("카테고리"),
+                                        fieldWithPath("imgUrl").type(STRING)
+                                                .description("이미지 url")
+                                )
                                 .responseFields(
                                         getCommonResponseFields(
                                                 fieldWithPath("body").type(NULL)
