@@ -17,6 +17,7 @@ public enum Category {
     FOOD,
     ANIMAL,
     ETC,
+    PRIVATE,
     ;
 
     private static final Map<String, Category> CATEGORY_MAP = Stream.of(values()).collect(

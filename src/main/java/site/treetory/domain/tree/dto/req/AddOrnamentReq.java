@@ -25,7 +25,4 @@ public class AddOrnamentReq {
     @ImgUrlValid
     @Length(max = 255)
     private String imgUrl;
-
-    @NotNull
-    private Boolean isPublic;
 }
