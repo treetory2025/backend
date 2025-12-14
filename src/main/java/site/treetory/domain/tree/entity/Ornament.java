@@ -13,6 +13,9 @@ import site.treetory.domain.member.entity.Member;
 import site.treetory.domain.tree.enums.Category;
 import site.treetory.global.entity.BaseEntity;
 
+import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.FetchType.LAZY;
+
 @Entity
 @Getter
 @Builder
@@ -28,24 +31,19 @@ public class Ornament extends BaseEntity {
     @Column(name = "ornament_id", columnDefinition = "INT UNSIGNED")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @NotNull
-    @Column(length = 10)
+    @Column(length = 10, unique = true)
     private String name;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
+    @Enumerated(STRING)
     private Category category;
 
     @NotNull
     private String imgUrl;
-
-    @NotNull
-    private Boolean isPublic;
-
 }
 
 
