@@ -118,6 +118,8 @@ public class TreeControllerTest {
                                         getCommonResponseFields(
                                                 fieldWithPath("body.nickname").type(STRING)
                                                         .description("닉네임"),
+                                                fieldWithPath("body.isBookmarked").type(BOOLEAN)
+                                                        .description("즐겨찾기 여부"),
                                                 fieldWithPath("body.treeSize").type(NUMBER)
                                                         .description("트리 크기"),
                                                 fieldWithPath("body.treeTheme").type(STRING)

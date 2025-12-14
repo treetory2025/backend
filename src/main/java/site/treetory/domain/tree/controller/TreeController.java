@@ -23,9 +23,10 @@ public class TreeController {
     private final TreeService treeService;
 
     @GetMapping("/{uuid}")
-    public ResponseDto<TreeDetailsRes> treeDetails(@PathVariable String uuid) {
+    public ResponseDto<TreeDetailsRes> treeDetails(@LoginMember Member member,
+                                                   @PathVariable String uuid) {
 
-        TreeDetailsRes result = treeService.getTreeDetails(uuid);
+        TreeDetailsRes result = treeService.getTreeDetails(uuid, member);
 
         return ResponseDto.success(OK, result);
     }

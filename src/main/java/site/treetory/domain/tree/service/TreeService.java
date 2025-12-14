@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.treetory.domain.member.entity.Member;
+import site.treetory.domain.member.repository.BookmarkRepository;
 import site.treetory.domain.tree.dto.req.ChangeBackgroundReq;
 import site.treetory.domain.tree.dto.req.ChangeThemeReq;
 import site.treetory.domain.tree.dto.req.PlaceOrnamentReq;
@@ -35,16 +36,22 @@ public class TreeService {
     private final TreeRepository treeRepository;
     private final OrnamentRepository ornamentRepository;
     private final PlacedOrnamentRepository placedOrnamentRepository;
+    private final BookmarkRepository bookmarkRepository;
 
     @Transactional(readOnly = true)
-    public TreeDetailsRes getTreeDetails(String uuid) {
+    public TreeDetailsRes getTreeDetails(String uuid, Member member) {
 
         Tree tree = treeRepository.findByUuid(uuid)
                 .orElseThrow(() -> new CustomException(NOT_FOUND));
 
         List<PlacedOrnament> placedOrnaments = placedOrnamentRepository.findAllByTreeId(tree.getId());
 
-        return TreeDetailsRes.toDto(tree, placedOrnaments);
+        Boolean isBookmarked = false;
+        if (member != null) {
+            isBookmarked = bookmarkRepository.existsByMemberAndTargetMember(member, tree.getMember());
+        }
+
+        return TreeDetailsRes.toDto(tree, placedOrnaments, isBookmarked);
     }
 
     @Transactional
