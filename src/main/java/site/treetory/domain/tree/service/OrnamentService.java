@@ -18,6 +18,7 @@ import site.treetory.domain.tree.repository.OrnamentRepository;
 import site.treetory.global.exception.CustomException;
 import site.treetory.global.util.S3Uploader;
 
+import static site.treetory.domain.tree.enums.Category.PRIVATE;
 import static site.treetory.global.statuscode.ErrorCode.BAD_REQUEST;
 import static site.treetory.global.statuscode.ErrorCode.NOT_FOUND;
 
@@ -41,19 +42,31 @@ public class OrnamentService {
     @Transactional
     public void addOrnament(Member member, AddOrnamentReq req) {
 
-        if (ornamentRepository.existsByName(req.getName())) {
-            throw new CustomException(BAD_REQUEST);
-        }
+        Category category = Category.getCategory(req.getCategory());
+
+        validateCategoryAndName(req, category);
 
         Ornament ornament = Ornament.builder()
                 .member(member)
                 .name(req.getName())
-                .category(Category.getCategory(req.getCategory()))
+                .category(category)
                 .imgUrl(req.getImgUrl())
-                .isPublic(req.getIsPublic())
                 .build();
 
         ornamentRepository.save(ornament);
+    }
+
+    private void validateCategoryAndName(AddOrnamentReq req, Category category) {
+
+        if (category == PRIVATE && req.getName() != null) {
+            throw new CustomException(BAD_REQUEST);
+        }
+
+        if (category != PRIVATE) {
+            if (req.getName() == null || ornamentRepository.existsByName(req.getName())) {
+                throw new CustomException(BAD_REQUEST);
+            }
+        }
     }
 
     @Transactional(readOnly = true)
