@@ -8,10 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import site.treetory.domain.member.entity.Member;
 import site.treetory.domain.tree.dto.req.AddOrnamentReq;
 import site.treetory.domain.tree.dto.req.OrnamentListReq;
-import site.treetory.domain.tree.dto.res.OrnamentDetailsRes;
-import site.treetory.domain.tree.dto.res.OrnamentListRes;
-import site.treetory.domain.tree.dto.res.OrnamentNameExistsRes;
-import site.treetory.domain.tree.dto.res.UploadImageRes;
+import site.treetory.domain.tree.dto.res.*;
 import site.treetory.domain.tree.entity.Ornament;
 import site.treetory.domain.tree.enums.Category;
 import site.treetory.domain.tree.repository.OrnamentRepository;
@@ -39,7 +36,7 @@ public class OrnamentService {
     }
 
     @Transactional
-    public void addOrnament(Member member, AddOrnamentReq req) {
+    public AddOrnamentRes addOrnament(Member member, AddOrnamentReq req) {
 
         Category category = Category.getCategory(req.getCategory());
 
@@ -52,7 +49,9 @@ public class OrnamentService {
                 .imgUrl(req.getImgUrl())
                 .build();
 
-        ornamentRepository.save(ornament);
+        Ornament savedOrnament = ornamentRepository.save(ornament);
+
+        return new AddOrnamentRes(savedOrnament.getId());
     }
 
     private void validateCategoryAndName(AddOrnamentReq req, Category category) {

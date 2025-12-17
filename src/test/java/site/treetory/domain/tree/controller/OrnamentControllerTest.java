@@ -230,8 +230,8 @@ public class OrnamentControllerTest {
                                 )
                                 .responseFields(
                                         getCommonResponseFields(
-                                                fieldWithPath("body").type(NULL)
-                                                        .description("내용 없음")
+                                                fieldWithPath("body.ornamentId").type(NUMBER)
+                                                        .description("생성된 오너먼트 ID")
                                         )
                                 )
                                 .requestSchema(Schema.schema("즐겨찾기 추가 Request"))
