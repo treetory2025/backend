@@ -7,10 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import site.treetory.domain.member.entity.Member;
 import site.treetory.domain.tree.dto.req.AddOrnamentReq;
 import site.treetory.domain.tree.dto.req.OrnamentListReq;
-import site.treetory.domain.tree.dto.res.OrnamentDetailsRes;
-import site.treetory.domain.tree.dto.res.OrnamentListRes;
-import site.treetory.domain.tree.dto.res.OrnamentNameExistsRes;
-import site.treetory.domain.tree.dto.res.UploadImageRes;
+import site.treetory.domain.tree.dto.res.*;
 import site.treetory.domain.tree.service.OrnamentService;
 import site.treetory.global.argument_resolver.LoginMember;
 import site.treetory.global.dto.ResponseDto;
@@ -34,12 +31,12 @@ public class OrnamentController {
     }
 
     @PostMapping
-    public ResponseDto<Void> addOrnament(@LoginMember Member member,
-                                         @Valid @RequestBody AddOrnamentReq addOrnamentReq) {
-        
-        ornamentService.addOrnament(member, addOrnamentReq);
+    public ResponseDto<AddOrnamentRes> addOrnament(@LoginMember Member member,
+                                                   @Valid @RequestBody AddOrnamentReq addOrnamentReq) {
 
-        return ResponseDto.success(CREATED);
+        AddOrnamentRes result = ornamentService.addOrnament(member, addOrnamentReq);
+
+        return ResponseDto.success(CREATED, result);
     }
 
     @GetMapping("/exists")
