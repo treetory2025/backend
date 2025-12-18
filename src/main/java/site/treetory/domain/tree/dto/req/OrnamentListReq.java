@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 @AllArgsConstructor
 public class OrnamentListReq {
     
-    private final int ORNAMENT_PAGE_SIZE = 18;
+    private final int ORNAMENT_PAGE_SIZE = 12;
 
     private String category;
 
