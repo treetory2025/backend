@@ -40,6 +40,9 @@ spring:
         bucket: treetory
         url: https://treetory.s3.ap-northeast-2.amazonaws.com/
 
+server:
+  forward-headers-strategy: native
+
 jwt:
   access:
     secret: testkeytestkeytestkeytestkeytestkeytestkeytestkeytestkey
