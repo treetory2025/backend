@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: treetory
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/treetory
+    username: root
+
+  data:
+    redis:
+      repositories:
+        enabled: false
+      host: localhost
+      port: 6379
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+    defer-datasource-initialization: true
+
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:sql/data.sql
+      
+  cloud:
+    aws:
+      credentials:
+        access-key: testkeytestkeytestkeytestkeytestkeytestkeytestkeytestkey
+        secret-key: testkeytestkeytestkeytestkeytestkeytestkeytestkeytestkey
+      region:
+        static: ap-northeast-2
+      s3:
+        bucket: treetory
+        url: https://treetory.s3.ap-northeast-2.amazonaws.com/
+
+jwt:
+  access:
+    secret: testkeytestkeytestkeytestkeytestkeytestkeytestkeytestkey
+    expiration: 60000
+  refresh:
+    secret: testkeytestkeytestkeytestkeytestkeytestkeytestkeytestkey
+    expiration: 60000
+
+cors:
+  allowed-origins: 

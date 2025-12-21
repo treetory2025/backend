@@ -12,3 +12,15 @@ spring:
         format_sql: true
         show_sql: true
     defer-datasource-initialization: true
+
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:sql/data.sql
+
+logging:
+  level:
+    root: info
+    
+cors:
+  allowed-origins: "http://localhost:3000, https://develop.bacinf.com"
