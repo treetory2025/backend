@@ -47,7 +47,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers(GET, "/api/trees/*", "/api/docs/**", "api/members", "/api/ornaments", "/api/ornaments/{ornamentId}").permitAll()
+                        .requestMatchers(GET, "/api/trees/*", "/api/docs/**", "/api/members", "/api/ornaments", "/api/ornaments/{ornamentId}").permitAll()
                         .requestMatchers(POST, "/api/trees/*/ornaments").permitAll()
                         .requestMatchers("/api/**").authenticated()
                         .requestMatchers(GET, "/actuator/health").permitAll()
